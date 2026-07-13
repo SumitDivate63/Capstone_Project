@@ -1,0 +1,16 @@
+torch
+torchvision
+torchaudio
+transformers
+huggingface-hub
+librosa
+numpy
+pandas
+scikit-learn
+opencv-python
+captum
+shap
+matplotlib
+pyyaml
+tensorboard
+jupyter

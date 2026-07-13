@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "explainable_multimodal_depression_detection"
+version = "0.1.0"
+description = "Explainable Multimodal Depression Detection using DAIC-WOZ Dataset"
+authors = [
+    {name = "User"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
