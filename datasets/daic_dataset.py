@@ -90,8 +90,11 @@ class DAICDataset(Dataset):
         """Helper to load a CSV file safely."""
         path = self._resolve_path(path_str, participant_id, modality)
         df = pd.read_csv(path, **kwargs)
-        if len(df.columns) == 1:
+        
+        # Robust delimiter detection for transcripts which use tab separation in DAIC-WOZ
+        if modality == "Transcript" and len(df.columns) == 1:
             df = pd.read_csv(path, sep="\t", **kwargs)
+            
         return df
 
     def _load_visual(self, row: pd.Series, participant_id: int) -> Dict[str, Any]:
