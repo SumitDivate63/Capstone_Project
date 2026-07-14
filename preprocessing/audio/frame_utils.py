@@ -7,42 +7,26 @@ logger = get_logger(__name__)
 
 def validate_frames(dfs: Dict[str, pd.DataFrame]) -> None:
     """
-    Validates frame/timestamp ordering, duplicates, and missing indices.
+    Validates presence of data without assuming frame/timestamp columns.
 
     Args:
         dfs: Dictionary of modality name to pandas DataFrame.
 
     Raises:
-        ValueError: If corrupted, duplicated, or non-monotonic rows exist.
-        KeyError: If synchronization column is missing.
+        ValueError: If a dataframe is completely empty.
     """
-    sync_col = "frame"
-    
     for name, df in dfs.items():
-        if sync_col not in df.columns:
-            # Fallback to timestamp if frame isn't present but keep standard 'frame' preference
-            if "timestamp" in df.columns:
-                sync_col = "timestamp"
-            else:
-                raise KeyError(f"Missing '{sync_col}' or 'timestamp' column in {name} DataFrame.")
-        
-        if df[sync_col].isnull().any():
-            raise ValueError(f"Invalid (NaN) {sync_col} values found in {name}.")
-            
-        if df[sync_col].duplicated().any():
-            raise ValueError(f"Duplicated {sync_col}s detected in {name}.")
-            
-        if not df[sync_col].is_monotonic_increasing:
-            raise ValueError(f"{sync_col}s are not monotonically increasing in {name}.")
+        if df.empty:
+            raise ValueError(f"DataFrame {name} is completely empty.")
 
 
 def synchronize_frames(dfs: Dict[str, pd.DataFrame]) -> pd.DataFrame:
     """
-    Synchronizes DataFrames safely using the common index (frame or timestamp).
+    Synchronizes DataFrames safely using row order only as DAIC-WOZ audio does not contain timestamps.
     Removes unmatched rows.
 
     Args:
-        dfs: Dictionary of DataFrames (e.g., COVAREP, FORMANT).
+        dfs: Dictionary of DataFrames (COVAREP, FORMANT).
 
     Returns:
         A precisely synchronized, concatenated DataFrame.
@@ -50,24 +34,24 @@ def synchronize_frames(dfs: Dict[str, pd.DataFrame]) -> pd.DataFrame:
     if not dfs:
         raise ValueError("Empty dictionary provided for synchronization.")
         
-    sync_col = "frame" if "frame" in list(dfs.values())[0].columns else "timestamp"
+    if "covarep" not in dfs or "formant" not in dfs:
+        raise ValueError("Both 'covarep' and 'formant' DataFrames are required.")
+
+    covarep = dfs["covarep"]
+    formant = dfs["formant"]
     
-    synced_df = None
-    for name, df in dfs.items():
-        if sync_col not in df.columns:
-            raise KeyError(f"Column '{sync_col}' not found in {name}. Cannot synchronize.")
-            
-        df_indexed = df.set_index(sync_col).add_prefix(f"{name}_")
-        
-        if synced_df is None:
-            synced_df = df_indexed
-        else:
-            synced_df = synced_df.join(df_indexed, how="inner")
-            
-    if synced_df is None or synced_df.empty:
-        raise ValueError("Synchronization failed: No overlapping temporal frames found.")
-        
-    return synced_df.reset_index()
+    rows = min(len(covarep), len(formant))
+    
+    covarep = covarep.iloc[:rows].reset_index(drop=True)
+    formant = formant.iloc[:rows].reset_index(drop=True)
+    
+    # Prefix columns to avoid duplicate column index issues natively
+    covarep.columns = [f"covarep_{c}" for c in covarep.columns]
+    formant.columns = [f"formant_{c}" for c in formant.columns]
+    
+    audio_df = pd.concat([covarep, formant], axis=1)
+    
+    return audio_df
 
 
 def handle_infinities(df: pd.DataFrame) -> Tuple[pd.DataFrame, int]:

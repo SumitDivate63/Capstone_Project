@@ -86,10 +86,10 @@ class DAICDataset(Dataset):
 
         return path
 
-    def _load_csv(self, path_str: Any, participant_id: int, modality: str) -> pd.DataFrame:
+    def _load_csv(self, path_str: Any, participant_id: int, modality: str, **kwargs) -> pd.DataFrame:
         """Helper to load a CSV file safely."""
         path = self._resolve_path(path_str, participant_id, modality)
-        return pd.read_csv(path)
+        return pd.read_csv(path, **kwargs)
 
     def _load_visual(self, row: pd.Series, participant_id: int) -> Dict[str, Any]:
         """Load visual features."""
@@ -105,8 +105,8 @@ class DAICDataset(Dataset):
     def _load_audio(self, row: pd.Series, participant_id: int) -> Dict[str, Any]:
         """Load audio features."""
         return {
-            "covarep": self._load_csv(row.get("covarep_path"), participant_id, "COVAREP"),
-            "formant": self._load_csv(row.get("formant_path"), participant_id, "Formant"),
+            "covarep": self._load_csv(row.get("covarep_path"), participant_id, "COVAREP", header=None),
+            "formant": self._load_csv(row.get("formant_path"), participant_id, "Formant", header=None),
             "waveform": self._resolve_path(row.get("audio_path"), participant_id, "Waveform")
         }
 
