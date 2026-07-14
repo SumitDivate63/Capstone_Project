@@ -1,0 +1,21 @@
+{
+    "generation_timestamp": "2026-07-14T18:54:24.444126",
+    "dataset_root": "/home/rit/Desktop/Capstone_G2/DAIC-WOZ",
+    "participants_in_split_files": 142,
+    "participant_folders_found": 173,
+    "participants_processed": 134,
+    "participants_skipped_no_folder": 8,
+    "participants_with_missing_modalities": 0,
+    "train_subjects": 101,
+    "dev_subjects": 33,
+    "missing_audio": 0,
+    "missing_transcript": 0,
+    "missing_covarep": 0,
+    "missing_formant": 0,
+    "missing_au": 0,
+    "missing_pose": 0,
+    "missing_gaze": 0,
+    "missing_features": 0,
+    "missing_features3d": 0,
+    "missing_hog": 0
+}
