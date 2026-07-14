@@ -89,7 +89,10 @@ class DAICDataset(Dataset):
     def _load_csv(self, path_str: Any, participant_id: int, modality: str, **kwargs) -> pd.DataFrame:
         """Helper to load a CSV file safely."""
         path = self._resolve_path(path_str, participant_id, modality)
-        return pd.read_csv(path, **kwargs)
+        df = pd.read_csv(path, **kwargs)
+        if len(df.columns) == 1:
+            df = pd.read_csv(path, sep="\t", **kwargs)
+        return df
 
     def _load_visual(self, row: pd.Series, participant_id: int) -> Dict[str, Any]:
         """Load visual features."""

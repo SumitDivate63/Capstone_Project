@@ -5,24 +5,26 @@ import logging
 from pathlib import Path
 
 from preprocessing.text.pipeline import TextPreprocessingPipeline, TextPreprocessingConfig
+from datasets.daic_dataset import DAICDataset
 
 def test_pipeline():
     config = TextPreprocessingConfig(max_sequence_length=16, vocab_size=100)
     pipeline = TextPreprocessingPipeline(config)
     
-    data = {
-        "speaker": ["Ellie", "Participant", "Ellie", "Participant"],
-        "value": ["Hi", "Hello there.", "How are you.", "I'm doing well!"]
-    }
-    df = pd.DataFrame(data)
-    participant_data = {"transcript": df}
+    # Use real dataset loader for text modality
+    dataset = DAICDataset(split="train", load_visual=False, load_audio=False, load_text=True)
+    sample = dataset[0]
+    
+    print(sample["text"]["transcript"].columns)
+    
+    participant_data = sample["text"]
     
     # Check Pipeline fit
     pipeline.fit([participant_data])
     assert pipeline.vocabulary.is_fitted
     
     # Check Pipeline Transform
-    output = pipeline.transform(999, participant_data)
+    output = pipeline.transform(sample["participant_id"], participant_data)
     
     assert "token_ids" in output
     assert "attention_mask" in output
