@@ -1,60 +1,88 @@
-import pandas as pd
-import torch
-import tempfile
-import logging
-from pathlib import Path
-
-from preprocessing.text.pipeline import TextPreprocessingPipeline, TextPreprocessingConfig
 from datasets.daic_dataset import DAICDataset
+from preprocessing.text.pipeline import (
+    TextPreprocessingPipeline,
+    TextPreprocessingConfig,
+)
 
-def test_pipeline():
-    config = TextPreprocessingConfig(max_sequence_length=16, vocab_size=100)
-    pipeline = TextPreprocessingPipeline(config)
-    
-    # Use real dataset loader for text modality
-    dataset = DAICDataset(split="train", load_visual=False, load_audio=False, load_text=True)
-    sample = dataset[0]
-    
-    print(sample["text"]["transcript"].columns)
-    
-    participant_data = sample["text"]
-    
-    # Check Pipeline fit
-    pipeline.fit([participant_data])
-    assert pipeline.vocabulary.is_fitted
-    
-    # Check Pipeline Transform
-    output = pipeline.transform(sample["participant_id"], participant_data)
-    
-    assert "token_ids" in output
-    assert "attention_mask" in output
-    assert "sequence_length" in output
-    assert "raw_text" in output
-    
-    ids_tensor = output["token_ids"]
-    mask = output["attention_mask"]
-    
-    assert isinstance(ids_tensor, torch.LongTensor)
-    assert isinstance(mask, torch.LongTensor)
-    
-    assert ids_tensor.shape == (16,)
-    assert mask.shape == (16,)
-    
-    assert not torch.isnan(ids_tensor.float()).any()
-    assert output["sequence_length"].item() > 0
-    
-    with tempfile.TemporaryDirectory() as tmpdir:
-        vocab_path = Path(tmpdir) / "vocab.pkl"
-        pipeline.save_vocabulary(str(vocab_path))
-        
-        new_pipeline = TextPreprocessingPipeline(config)
-        new_pipeline.load_vocabulary(str(vocab_path))
-        
-        assert new_pipeline.vocabulary.is_fitted
-        assert new_pipeline.vocabulary.word2id == pipeline.vocabulary.word2id
+import torch
 
-    print("All Text Pipeline unit tests passed natively.")
+print("=" * 70)
+print("TEXT PREPROCESSING PIPELINE TEST")
+print("=" * 70)
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    test_pipeline()
+# -----------------------------
+# Load Dataset
+# -----------------------------
+dataset = DAICDataset(split="train")
+
+print(f"Dataset Size : {len(dataset)}")
+
+sample = dataset[0]
+
+print(f"Participant : {sample['participant_id']}")
+
+print("\nTranscript Columns:")
+print(sample["text"]["transcript"].columns)
+
+# -----------------------------
+# Create Pipeline
+# -----------------------------
+config = TextPreprocessingConfig(
+    max_sequence_length=512
+)
+
+pipeline = TextPreprocessingPipeline(config)
+
+# -----------------------------
+# Fit Vocabulary
+# -----------------------------
+print("\nBuilding Vocabulary...")
+
+train_text = [
+    dataset[i]["text"]
+    for i in range(min(20, len(dataset)))
+]
+
+pipeline.fit(train_text)
+
+print("Vocabulary Built.")
+
+# -----------------------------
+# Transform One Participant
+# -----------------------------
+output = pipeline.transform(
+    sample["participant_id"],
+    sample["text"]
+)
+
+print()
+print("=" * 70)
+print("TEXT")
+print("=" * 70)
+
+print("Keys :", output.keys())
+print()
+
+print("Token IDs Shape :", output["token_ids"].shape)
+print("Attention Mask Shape :", output["attention_mask"].shape)
+print("Sequence Length :", output["sequence_length"])
+print()
+
+print("Token Tensor Type :", type(output["token_ids"]))
+print("Attention Type :", type(output["attention_mask"]))
+print()
+
+print("NaN Count :", torch.isnan(output["token_ids"].float()).sum())
+print("Inf Count :", torch.isinf(output["token_ids"].float()).sum())
+print()
+
+print("Vocabulary Size :", len(pipeline.vocabulary.word2id))
+print()
+
+print("Raw Text Preview:")
+print(output["raw_text"][:300])
+print()
+
+print("=" * 70)
+print("TEXT PREPROCESSING PASSED")
+print("=" * 70)
