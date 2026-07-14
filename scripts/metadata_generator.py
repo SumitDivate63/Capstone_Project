@@ -79,15 +79,24 @@ def generate_metadata() -> None:
     combined_df.columns = combined_df.columns.str.strip()
 
     required_columns = ["Participant_ID", "PHQ8_Binary", "PHQ8_Score", "Gender", "split"]
-    # Check for missing columns (case-insensitive where possible, but we'll exact match first)
     missing_cols = [col for col in required_columns if col not in combined_df.columns]
     if missing_cols:
         logger.error(f"Missing required columns in labels: {missing_cols}")
         logger.error(f"Available columns: {list(combined_df.columns)}")
         return
 
-    total_subjects = len(combined_df)
-    logger.info(f"Total participants found in splits: {total_subjects}")
+    participants_in_split_files = len(combined_df)
+    logger.info(f"Participants in split files: {participants_in_split_files}")
+
+    # Build a set of all actually existing participant folders
+    existing_folders = set()
+    if dataset_root.exists():
+        for d in dataset_root.iterdir():
+            if d.is_dir() and d.name.endswith("_P"):
+                existing_folders.add(d.name)
+                
+    participant_folders_found = len(existing_folders)
+    logger.info(f"Participant folders found: {participant_folders_found}")
 
     metadata_records = []
     
@@ -104,19 +113,31 @@ def generate_metadata() -> None:
         "hog": 0
     }
 
+    participants_processed = 0
+    participants_skipped_no_folder = 0
+    participants_with_missing_modalities = 0
+    
     train_subjects = 0
     dev_subjects = 0
 
-    for _, row in tqdm(combined_df.iterrows(), total=total_subjects, desc="Processing Participants"):
+    for _, row in tqdm(combined_df.iterrows(), total=participants_in_split_files, desc="Processing Participants"):
         p_id = str(int(row["Participant_ID"]))
         split = row["split"]
+        folder_name = f"{p_id}_P"
         
+        if folder_name not in existing_folders:
+            logger.warning(f"Participant {p_id} listed in split CSV but participant folder not found. Skipping participant.")
+            participants_skipped_no_folder += 1
+            continue
+            
+        participants_processed += 1
+
         if split == "train":
             train_subjects += 1
         else:
             dev_subjects += 1
 
-        participant_dir = dataset_root / f"{p_id}_P"
+        participant_dir = dataset_root / folder_name
 
         record = {
             "participant_id": p_id,
@@ -128,22 +149,26 @@ def generate_metadata() -> None:
 
         has_all_files = True
         
-        # Check files
+        # Check files using relative paths
         for key, suffix in REQUIRED_FILES.items():
-            expected_file = participant_dir / f"{p_id}{suffix}"
+            file_name = f"{p_id}{suffix}"
+            expected_file = participant_dir / file_name
             if expected_file.exists():
-                # Store absolute path
-                record[key] = str(expected_file.absolute())
+                record[key] = f"{folder_name}/{file_name}"
             else:
                 record[key] = None
                 has_all_files = False
-                # Increment missing stat based on key (strip "_path")
                 stat_key = key.replace("_path", "")
                 missing_stats[stat_key] += 1
-                logger.warning(f"Participant {p_id} missing file: {expected_file.name}")
         
+        if not has_all_files:
+            participants_with_missing_modalities += 1
+            
         record["has_all_files"] = has_all_files
         metadata_records.append(record)
+
+    logger.info(f"Participants processed: {participants_processed}")
+    logger.info(f"Participants skipped: {participants_skipped_no_folder}")
 
     # Save to CSV
     metadata_df = pd.DataFrame(metadata_records)
@@ -155,7 +180,11 @@ def generate_metadata() -> None:
     summary = {
         "generation_timestamp": datetime.now().isoformat(),
         "dataset_root": str(dataset_root.absolute()),
-        "total_subjects": total_subjects,
+        "participants_in_split_files": participants_in_split_files,
+        "participant_folders_found": participant_folders_found,
+        "participants_processed": participants_processed,
+        "participants_skipped_no_folder": participants_skipped_no_folder,
+        "participants_with_missing_modalities": participants_with_missing_modalities,
         "train_subjects": train_subjects,
         "dev_subjects": dev_subjects,
         "missing_audio": missing_stats["audio"],
@@ -175,7 +204,7 @@ def generate_metadata() -> None:
         json.dump(summary, f, indent=4)
         
     logger.info(f"Metadata summary JSON saved to: {summary_json_path}")
-    logger.info("Metadata generation completed.")
+    logger.info("Metadata generation completed successfully.")
 
 def main() -> None:
     """Main entry point for generating metadata."""
