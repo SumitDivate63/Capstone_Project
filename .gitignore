@@ -14,3 +14,12 @@ data/cache/
 .idea/
 .vscode/
 .DS_Store
+
+# Common server/OS files
+*.pyc
+*.pyo
+*.pyd
+.env
+env/
+Desktop.ini
+Thumbs.db
