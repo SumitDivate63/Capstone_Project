@@ -46,28 +46,35 @@ class VisualPreprocessingPipeline:
 
     def fit(self, visual_data_list: list[Dict[str, pd.DataFrame]]) -> None:
         """
-        Fits the normalizer entirely on a collection of training participants.
+        Fits the normalizer entirely on a collection of training participants incrementally.
 
         Args:
             visual_data_list: List of 'visual' dict outputs from DAICDataset.
         """
-        logger.info("Starting Pipeline Fit on training data...")
-        aggregated_dfs = []
+        processed_count = 0
         
         for idx, visual_data in enumerate(visual_data_list):
             try:
                 cleansed_df = self.preprocessor.process_participant(participant_id=idx, visual_data=visual_data)
-                aggregated_dfs.append(cleansed_df)
+                
+                # Determine feature columns on the first valid participant
+                if not self.feature_columns:
+                    self._determine_feature_columns(cleansed_df)
+                    
+                self.normalizer.partial_fit(cleansed_df, self.feature_columns)
+                
+                print(f"Participant {idx}")
+                print("Scaler Updated")
+                processed_count += 1
             except Exception as e:
                 logger.error(f"Skipping participant {idx} in fitting due to errors: {e}")
                 
-        if not aggregated_dfs:
+        if processed_count == 0:
             raise ValueError("No valid participants available to fit the scaler.")
             
-        master_df = pd.concat(aggregated_dfs, ignore_index=True)
-        self._determine_feature_columns(master_df)
-        self.normalizer.fit(master_df, self.feature_columns)
-        logger.info("Pipeline Normalizer fit successful.")
+        print("Finished fitting scaler")
+        print(f"Processed Participants : {processed_count}")
+        print(f"Features : {len(self.feature_columns)}")
 
     def transform(self, participant_id: int, visual_data: Dict[str, Any]) -> torch.Tensor:
         """

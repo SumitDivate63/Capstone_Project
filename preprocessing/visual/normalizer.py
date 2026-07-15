@@ -53,6 +53,29 @@ class VisualNormalizer:
         self.is_fitted = True
         logger.info(f"Fitted {self.method} scaler on {len(feature_columns)} features.")
 
+    def partial_fit(self, df: pd.DataFrame, feature_columns: list) -> None:
+        """
+        Incrementally fit the scaler on the designated training features.
+        
+        Args:
+            df: Training DataFrame.
+            feature_columns: Columns to fit on.
+        """
+        if not feature_columns:
+            raise ValueError("No feature columns provided for fitting scaler.")
+            
+        if self.feature_columns is None:
+            self.feature_columns = feature_columns
+        elif self.feature_columns != feature_columns:
+            raise ValueError("Feature columns must remain consistent across partial_fit calls.")
+            
+        if not hasattr(self.scaler, 'partial_fit'):
+            # Fallback for scalers like RobustScaler that don't support partial_fit out of the box
+            # Just fit it once or raise an error depending on the use case. For now raise.
+            raise NotImplementedError(f"Scaler {self.method} does not support partial_fit.")
+
+        self.scaler.partial_fit(df[self.feature_columns])
+        self.is_fitted = True
 
     def transform(self, df: pd.DataFrame) -> pd.DataFrame:
         """
