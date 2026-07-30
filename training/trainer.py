@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from typing import Dict
+from typing import Dict, Any
 from torch.utils.data import DataLoader
 
 from .losses import create_loss
@@ -17,14 +17,18 @@ class VisualTrainer:
     Robust native trainer isolating structural loops entirely avoiding external dependencies (Lightning/HuggingFace wrappers).
     """
 
-    def __init__(self, model: nn.Module, device: str = "cuda" if torch.cuda.is_available() else "cpu"):
+    def __init__(self, model: nn.Module, device: str = "cuda" if torch.cuda.is_available() else "cpu", class_weights=None):
         self.device = torch.device(device)
         self.model = model.to(self.device)
-        self.criterion = create_loss().to(self.device)
-        self.optimizer = create_optimizer(self.model)
-        self.best_f1 = -1.0
+        if class_weights is not None:
+             self.criterion = nn.CrossEntropyLoss(weight=class_weights).to(self.device)
+        else:
+             self.criterion = nn.CrossEntropyLoss().to(self.device)
+        self.optimizer = create_optimizer(self.model, learning_rate=1e-4, weight_decay=1e-3)
+        self.best_metric = -1.0
+        self.global_step = 0
         
-    def _run_epoch(self, dataloader: DataLoader, is_train: bool) -> Dict[str, float]:
+    def _run_epoch(self, dataloader: DataLoader, is_train: bool) -> Dict[str, Any]:
         """Unified internal tracking iteration separating compute graphs appropriately."""
         if is_train:
             self.model.train()
@@ -36,7 +40,7 @@ class VisualTrainer:
         all_targets = []
         
         with torch.set_grad_enabled(is_train):
-            for batch in dataloader:
+            for batch_idx, batch in enumerate(dataloader):
                 inputs, targets = batch
                 inputs = inputs.to(self.device)
                 targets = targets.to(self.device)
@@ -49,7 +53,21 @@ class VisualTrainer:
                 
                 if is_train:
                     loss.backward()
+                    
+                    if self.global_step < 5:
+                        total_norm = 0.0
+                        logger.info(f"--- Iteration {self.global_step} Gradient Norms ---")
+                        for name, p in self.model.named_parameters():
+                            if p.grad is not None:
+                                param_norm = p.grad.detach().data.norm(2)
+                                total_norm += param_norm.item() ** 2
+                                logger.info(f"{name}: {param_norm.item():.4f}")
+                        total_norm = total_norm ** 0.5
+                        logger.info(f"Total Gradient Norm: {total_norm:.4f}")
+                    
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
                     self.optimizer.step()
+                    self.global_step += 1
                     
                 total_loss += loss.item() * inputs.size(0)
                 preds = torch.argmax(logits, dim=1)
@@ -61,15 +79,15 @@ class VisualTrainer:
         avg_loss = total_loss / max(len(dataloader.dataset), 1)
         return compute_metrics(all_targets, all_preds, avg_loss)
 
-    def train(self, dataloader: DataLoader) -> Dict[str, float]:
+    def train(self, dataloader: DataLoader) -> Dict[str, Any]:
         """Orchestrates backward pass mapping per mini-batch sequence."""
         return self._run_epoch(dataloader, is_train=True)
         
-    def validate(self, dataloader: DataLoader) -> Dict[str, float]:
+    def validate(self, dataloader: DataLoader) -> Dict[str, Any]:
         """Freezes tensors and asserts generalization constraints."""
         return self._run_epoch(dataloader, is_train=False)
 
-    def fit(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int):
+    def fit(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int, metric_for_best: str = 'f1'):
         """
         Runs consecutive epochs natively triggering Checkpointing triggers autonomously.
         """
@@ -83,20 +101,33 @@ class VisualTrainer:
             
             # Explicit unified logging format
             logger.info(
-                f"Epoch [{epoch}/{epochs}] "
-                f"LR: {lr_current:.2e} | "
-                f"Tr. Loss: {train_metrics['loss']:.4f} | "
-                f"Val Loss: {val_metrics['loss']:.4f} | "
-                f"Acc: {val_metrics['accuracy']:.4f}, Prec: {val_metrics['precision']:.4f}, "
-                f"Rec: {val_metrics['recall']:.4f}, F1: {val_metrics['f1']:.4f}"
+                f"Epoch [{epoch}/{epochs}] LR: {lr_current:.2e}"
+            )
+            logger.info(
+                f"Train - Loss: {train_metrics['loss']:.4f} | Acc: {train_metrics['accuracy']:.4f} | "
+                f"Prec: {train_metrics['precision']:.4f} | Rec: {train_metrics['recall']:.4f} | F1: {train_metrics['f1']:.4f}"
+            )
+            logger.info(
+                f"Val   - Loss: {val_metrics['loss']:.4f} | Acc: {val_metrics['accuracy']:.4f} | "
+                f"Prec: {val_metrics['precision']:.4f} | Rec: {val_metrics['recall']:.4f} | F1: {val_metrics['f1']:.4f}"
             )
             
+            # Additional reporting on validation dataset distributions
+            cm = val_metrics['cm']
+            counts = val_metrics['counts']
+            logger.info("Validation Confusion Matrix:")
+            logger.info(f"Predicted:\n  Class 0 : {counts['pred_0']}\n  Class 1 : {counts['pred_1']}")
+            logger.info(f"Ground Truth:\n  Class 0 : {counts['true_0']}\n  Class 1 : {counts['true_1']}")
+            logger.info(f"Matrix:\n{cm}")
+            
             # Threshold testing for serialization
-            is_best = val_metrics['f1'] > self.best_f1
+            current_metric = train_metrics['accuracy'] if metric_for_best == 'accuracy' else val_metrics['f1']
+            is_best = current_metric > self.best_metric
             if is_best:
-                self.best_f1 = val_metrics['f1']
+                self.best_metric = current_metric
                 
-            save_checkpoint(self.model, epoch, self.best_f1, is_best)
+            save_checkpoint(self.model, epoch, self.best_metric, is_best)
             
             if is_best:
-                logger.info(f"Epoch {epoch}: Structural weights persisted. Checkpoint Saved -> (F1 Metric Anchor: {self.best_f1:.4f})")
+                logger.info(f"Epoch {epoch}: Structural weights persisted. Checkpoint Saved -> (Anchor: {self.best_metric:.4f})")
+
