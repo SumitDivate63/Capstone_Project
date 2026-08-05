@@ -93,3 +93,14 @@ def test_visual_pipeline_stress_test():
     assert not torch.isnan(tensor).any(), "NaN found in transformed tensor"
     assert not torch.isinf(tensor).any(), "Inf found in transformed tensor"
 
+if __name__ == "__main__":
+    print("=" * 70)
+    print("VISUAL PREPROCESSING STRESS TEST")
+    print("=" * 70)
+
+    test_visual_pipeline_stress_test()
+
+    print("\n")
+    print("=" * 70)
+    print("VISUAL PREPROCESSING STRESS TEST PASSED")
+    print("=" * 70)
