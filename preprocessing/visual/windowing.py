@@ -27,21 +27,22 @@ def generate_sliding_windows(
     num_frames, feature_dim = data.shape
     
     if num_frames < window_size:
-        logger.warning(
-            f"Input frames ({num_frames}) are shorter than window size ({window_size}). "
-            f"Pad this later if required, or returning zero windows."
-        )
-        return torch.empty((0, window_size, feature_dim), dtype=torch.float32)
+        raise ValueError(f"Insufficient frames ({num_frames}) for window size ({window_size}).")
 
-    # Use strided tricks or a simple loop. A loop is very safe here.
-    # To use stride tricks for speed:
     shape = ((num_frames - window_size) // stride + 1, window_size, feature_dim)
     strides = (data.strides[0] * stride, data.strides[0], data.strides[1])
-    
-    windows = np.lib.stride_tricks.as_strided(data, shape=shape, strides=strides)
+    windows_copy = np.lib.stride_tricks.as_strided(data, shape=shape, strides=strides).copy()
     
     # Needs to be a continuous float tensor
-    return torch.tensor(windows.copy(), dtype=torch.float32)
+    tensor = torch.tensor(windows_copy, dtype=torch.float32)
+    
+    # Verify shape
+    expected_shape = (window_size, 393)
+    for i in range(tensor.size(0)):
+        if tuple(tensor[i].shape) != expected_shape:
+            raise ValueError(f"Invalid window shape {tuple(tensor[i].shape)}. Expected {expected_shape}.")
+            
+    return tensor
 
 
 def generate_windows_from_df(

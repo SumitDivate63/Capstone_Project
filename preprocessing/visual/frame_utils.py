@@ -65,18 +65,65 @@ def synchronize_frames(dfs: Dict[str, pd.DataFrame]) -> pd.DataFrame:
 def handle_infinities(df: pd.DataFrame) -> pd.DataFrame:
     """
     Replaces +Inf and -Inf with NaN for future interpolation.
-    
-    Args:
-        df: Input DataFrame.
-        
-    Returns:
-        DataFrame with Inf replaced by NaN.
     """
     df = df.copy()
-    # Replace purely numeric inf
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     df[numeric_cols] = df[numeric_cols].replace([np.inf, -np.inf], np.nan)
     return df
+
+def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> Dict[str, pd.DataFrame]:
+    """
+    Detects invalid values like -1.#IND, INF, converts to numeric, logs counts.
+    Raises ValueError if completely unrecoverable.
+    """
+    invalid_strs = ["-1.#IND", "1.#IND", "INF", "-INF", "NaN", "nan", "inf", "Infinity"]
+    cleaned_dfs = {}
+    
+    total_invalid = 0
+    cols_affected = set()
+    rows_affected = set()
+    unrecoverable = False
+    
+    for name, df in dfs.items():
+        df_clean = df.copy()
+        for col in df_clean.columns:
+            if df_clean[col].dtype == object or str(df_clean[col].dtype).startswith('str'):
+                mask = df_clean[col].astype(str).str.strip().isin(invalid_strs)
+                if mask.any():
+                    total_invalid += mask.sum()
+                    cols_affected.add(col)
+                    rows_affected.update(df_clean.index[mask].tolist())
+                    
+                df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
+                
+            if pd.api.types.is_numeric_dtype(df_clean[col]):
+                inf_mask = np.isinf(df_clean[col])
+                if inf_mask.any():
+                    total_invalid += inf_mask.sum()
+                    cols_affected.add(col)
+                    rows_affected.update(df_clean.index[inf_mask].tolist())
+                    df_clean.loc[inf_mask, col] = np.nan
+                    
+        # Check if all feature rows are null
+        feat_cols = [c for c in df_clean.columns if c != 'frame']
+        if len(feat_cols) > 0 and df_clean[feat_cols].isna().all().all():
+            unrecoverable = True
+
+        cleaned_dfs[name] = df_clean
+        
+    if unrecoverable:
+        print(f"Participant {participant_id} skipped:")
+        print("Reason: Invalid feature values")
+        raise ValueError("corrupted feature file")
+        
+    if total_invalid > 0:
+        print(f"Participant: {participant_id}")
+        print("Reason: Invalid feature values")
+        print(f"Rows affected: {len(rows_affected)}")
+        print(f"Columns affected: {len(cols_affected)}")
+        print("Action taken: Replaced with np.nan")
+            
+    return cleaned_dfs
 
 
 def interpolate_missing(df: pd.DataFrame, method: str = "linear") -> pd.DataFrame:

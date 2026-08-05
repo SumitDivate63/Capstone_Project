@@ -40,18 +40,45 @@ def extract_valid_sequences(
                 pass
         pipeline.fit(train_visuals)
 
+    participants_loaded = 0
+    participants_skipped = 0
+    windows_generated = 0
+    healthy_windows = 0
+    depressed_windows = 0
+
     for i in range(len(dataset)):
         try:
             pt = dataset[i]
-            # Matrix is size (Number_Windows, Window_Size, Features)
             tensor = pipeline.transform(pt["participant_id"], pt["visual"])
             label = pt["labels"]["phq8_binary"]
             
+            w_count = tensor.size(0)
+            if w_count == 0:
+                print(f"Participant {pt['participant_id']} skipped:\nReason: Not enough frames for window generation.")
+                participants_skipped += 1
+                continue
+                
+            windows_generated += w_count
+            if label == 0:
+                healthy_windows += w_count
+            else:
+                depressed_windows += w_count
+                
             # Expand each sequence window block natively linking tracking label
-            for w in range(tensor.size(0)):
+            for w in range(w_count):
                 results.append((tensor[w], label))
+            participants_loaded += 1
         except Exception as e:
+            # We assume errors like corrupted data raised from pipeline are handled here
+            # but our cleaned pipeline already printed specific format, we just count skipped here
             logger.warning(f"Participant bounds skipped strictly during matrix translation [ID: {dataset[i]['participant_id']}] -> {e}")
+            participants_skipped += 1
+            
+    print("Participants loaded:", participants_loaded)
+    print("Participants skipped:", participants_skipped)
+    print("Windows generated:", windows_generated)
+    print("Healthy windows:", healthy_windows)
+    print("Depressed windows:", depressed_windows)
             
     return results
 

@@ -108,6 +108,18 @@ class VisualPreprocessingPipeline:
             self.config.stride
         )
         
+        if torch.isnan(windows_tensor).any():
+            raise ValueError(f"Validation Failed: NaN found in tensor for participant {participant_id}")
+        if torch.isinf(windows_tensor).any():
+            raise ValueError(f"Validation Failed: Inf found in tensor for participant {participant_id}")
+        if windows_tensor.dtype != torch.float32:
+            raise ValueError(f"Validation Failed: Expected float32 dtype for participant {participant_id}")
+        if windows_tensor.shape[0] > 0:
+            if windows_tensor.shape[1] != self.config.window_size:
+                raise ValueError(f"Validation Failed: Incorrect sequence length {windows_tensor.shape[1]}")
+            if windows_tensor.shape[2] != len(self.feature_columns):
+                raise ValueError(f"Validation Failed: Incorrect feature dimension {windows_tensor.shape[2]}")
+                
         logger.info(
             f"Participant {participant_id}: Processed Tensor Formed -> "
             f"Shape: {list(windows_tensor.shape)}, Type: {self.config.normalization}"

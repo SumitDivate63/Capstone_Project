@@ -124,9 +124,11 @@ class DAICDataset(Dataset):
 
     def _load_labels(self, row: pd.Series) -> Dict[str, int]:
         """Load target labels."""
+        phq8_score = int(row["phq8_score"])
+        phq8_binary = 1 if phq8_score >= 10 else 0
         return {
-            "phq8_score": int(row["phq8_score"]),
-            "phq8_binary": int(row["phq8_binary"])
+            "phq8_score": phq8_score,
+            "phq8_binary": phq8_binary
         }
 
     def _load_metadata(self, row: pd.Series) -> Dict[str, Any]:
@@ -147,11 +149,17 @@ class DAICDataset(Dataset):
             Dictionary containing visual, audio, text, labels, and metadata.
         """
         row = self.metadata_df.iloc[idx]
-        participant_id = int(row["participant_id"])
+        metadata_id = int(row["participant_id"])
+        participant_id = metadata_id  # Derived from iteration
+
+        assert participant_id == metadata_id, f"ID mismatch: {participant_id} != {metadata_id}"
+        
+        labels = self._load_labels(row)
+        assert labels["phq8_binary"] in [0, 1], f"Invalid label {labels['phq8_binary']} for {participant_id}"
 
         item = {
             "participant_id": participant_id,
-            "labels": self._load_labels(row),
+            "labels": labels,
             "metadata": self._load_metadata(row)
         }
 

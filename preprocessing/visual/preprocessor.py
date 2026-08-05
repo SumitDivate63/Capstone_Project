@@ -1,7 +1,7 @@
 import pandas as pd
 from typing import Dict, Any, List
 
-from .frame_utils import validate_frames, synchronize_frames, handle_infinities, interpolate_missing
+from .frame_utils import validate_frames, synchronize_frames, handle_infinities, interpolate_missing, clean_invalid_values
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -34,6 +34,9 @@ class VisualPreprocessor:
             if isinstance(value, pd.DataFrame):
                 dfs_to_process[key] = value
                 
+        # 0. Clean string artifacts and infs
+        dfs_to_process = clean_invalid_values(dfs_to_process, participant_id)
+
         # 1. Validate frames
         try:
             validate_frames(dfs_to_process)
