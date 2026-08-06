@@ -26,8 +26,12 @@ def generate_sliding_windows(
     """
     num_frames, feature_dim = data.shape
     
+    if num_frames == 0:
+        raise ValueError("Preprocessing Error: Rejecting empty participant (zero frames)")
+    if num_frames < 0:
+        raise ValueError("Preprocessing Error: Rejecting participant (negative frames)")
     if num_frames < window_size:
-        raise ValueError(f"Insufficient frames ({num_frames}) for window size ({window_size}).")
+        raise ValueError(f"Preprocessing Error: Insufficient frames ({num_frames}) for window size ({window_size}).")
 
     shape = ((num_frames - window_size) // stride + 1, window_size, feature_dim)
     strides = (data.strides[0] * stride, data.strides[0], data.strides[1])
@@ -36,11 +40,23 @@ def generate_sliding_windows(
     # Needs to be a continuous float tensor
     tensor = torch.tensor(windows_copy, dtype=torch.float32)
     
+    if not tensor.is_contiguous():
+        tensor = tensor.contiguous()
+        
+    # Tensor Validation
+    if torch.isnan(tensor).any():
+        raise ValueError("Preprocessing Error: NaN values found in tensor")
+    if torch.isinf(tensor).any():
+        raise ValueError("Preprocessing Error: Inf values found in tensor")
+        
     # Verify shape
     expected_shape = (window_size, 393)
+    if feature_dim != 393:
+        raise ValueError(f"Preprocessing Error: Expected feature dimension 393, got {feature_dim}")
+        
     for i in range(tensor.size(0)):
         if tuple(tensor[i].shape) != expected_shape:
-            raise ValueError(f"Invalid window shape {tuple(tensor[i].shape)}. Expected {expected_shape}.")
+            raise ValueError(f"Preprocessing Error: Invalid window shape {tuple(tensor[i].shape)}. Expected {expected_shape}.")
             
     return tensor
 

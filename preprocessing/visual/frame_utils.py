@@ -76,7 +76,7 @@ def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> D
     Detects invalid values like -1.#IND, INF, converts to numeric, logs counts.
     Raises ValueError if completely unrecoverable.
     """
-    invalid_strs = ["-1.#IND", "1.#IND", "INF", "-INF", "NaN", "nan", "inf", "Infinity"]
+    invalid_strs = ["-1.#IND", "1.#IND", "IND", "INF", "-INF", "-inf", "inf", "NaN", "nan", "None", "", "Infinity"]
     cleaned_dfs = {}
     
     total_invalid = 0
@@ -112,16 +112,11 @@ def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> D
         cleaned_dfs[name] = df_clean
         
     if unrecoverable:
-        print(f"Participant {participant_id} skipped:")
-        print("Reason: Invalid feature values")
+        print(f"Participant {participant_id} skipped\nReason:\nInvalid OpenFace values\n\nRows affected:\n{len(rows_affected)}\n\nColumns:\n{len(cols_affected)}\n\nAction:\nSkipped safely")
         raise ValueError("corrupted feature file")
         
     if total_invalid > 0:
-        print(f"Participant: {participant_id}")
-        print("Reason: Invalid feature values")
-        print(f"Rows affected: {len(rows_affected)}")
-        print(f"Columns affected: {len(cols_affected)}")
-        print("Action taken: Replaced with np.nan")
+        print(f"Participant ID\n{participant_id}\n\nReason\nInvalid feature values\n\nAffected file\nOpenFace CSV\n\nAffected columns\n{len(cols_affected)}\n\nRows affected\n{len(rows_affected)}\n\nRepair performed\nConverted to np.nan\n\nSkipped or repaired\nRepaired safely")
             
     return cleaned_dfs
 

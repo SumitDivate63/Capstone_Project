@@ -67,4 +67,20 @@ class VisualPreprocessor:
         # Extract purely feature columns, exclude auxiliary identifier cols like 'frame' if needed
         # The prompt requires column-wise fusion which is achieved inherently via `synchronize_frames`.
         
+        # Numeric Validation
+        for col in cleansed_df.columns:
+            if col == 'frame': continue
+            
+            if cleansed_df[col].dtype == object or str(cleansed_df[col].dtype).startswith('str') or cleansed_df[col].dtype == 'category':
+                print(f"Participant {participant_id} skipped\nReason:\nObject/String/Mixed dtype found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
+                raise ValueError("Validation Failed: Object/String/Mixed dtype")
+            
+            if not np.isfinite(cleansed_df[col]).all():
+                print(f"Participant {participant_id} skipped\nReason:\nNon-finite values found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
+                raise ValueError("Validation Failed: Non-finite values")
+                
+            if cleansed_df[col].isna().any():
+                print(f"Participant {participant_id} skipped\nReason:\nNaN values found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
+                raise ValueError("Validation Failed: NaN values")
+                
         return cleansed_df

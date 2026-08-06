@@ -89,11 +89,16 @@ class DAICDataset(Dataset):
     def _load_csv(self, path_str: Any, participant_id: int, modality: str, **kwargs) -> pd.DataFrame:
         """Helper to load a CSV file safely."""
         path = self._resolve_path(path_str, participant_id, modality)
-        df = pd.read_csv(path, **kwargs)
+        
+        # Merge kwargs with our defaults
+        read_kwargs = {"low_memory": False}
+        read_kwargs.update(kwargs)
+        
+        df = pd.read_csv(path, **read_kwargs)
         
         # Robust delimiter detection for transcripts which use tab separation in DAIC-WOZ
         if modality == "Transcript" and len(df.columns) == 1:
-            df = pd.read_csv(path, sep="\t", **kwargs)
+            df = pd.read_csv(path, sep="\t", **read_kwargs)
             
         return df
 
