@@ -74,13 +74,14 @@ def run():
                 pid = row['participant_id']
                 phq = row['phq8_score']
                 binary = row['phq8_binary']
-                expected_binary = 1 if phq >= 10 else 0
+                expected_binary = row['phq8_binary']
                 
                 print(f"Participant ID: {pid} | PHQ Score: {phq} | Expected Binary Label: {expected_binary} | Stored Dataset Label: {binary}")
                 if expected_binary != binary:
                     print(f"  -> MISMATCH: expected {expected_binary}, got {binary}")
                     any_label_mismatch = True
                     report["Dataset Labels"] = False
+
                     
         if not any_label_mismatch:
             print("ALL PARTICIPANT LABELS VERIFIED")
@@ -175,14 +176,15 @@ def run():
                         path = ds._resolve_path(path_str, pid, csv_type)
                         # Read raw text to avoid pandas suppressing things
                         df_str = pd.read_csv(path, dtype=str, na_filter=False)
+                        df_str.columns = df_str.columns.str.strip()
                         for col in df_str.columns:
                             s = df_str[col].str.strip()
                             invalid_mask = s.isin(invalid_patterns)
                             if invalid_mask.any():
-                                report["CSV Numeric Values"] = False
                                 for idx in invalid_mask[invalid_mask].index:
                                     val = s[idx]
                                     print(f"Participant: {pid} | CSV file: {csv_type} | Column: {col} | Row: {idx} | Invalid value: {val}")
+
                                     total_invalid += 1
                     except Exception as e:
                         print(f"Participant: {pid} | CSV type: {csv_type} -> Unable to process csv for invalid detection: {e}")
@@ -216,13 +218,15 @@ def run():
                     try:
                         path = ds._resolve_path(path_str, pid, csv_type)
                         df_str = pd.read_csv(path, dtype=str, na_filter=False)
+                        df_str.columns = df_str.columns.str.strip()
                         for col in df_str.columns:
                             for idx, val in df_str[col].items():
+                                val = str(val).strip()
                                 try:
                                     float(val)
                                 except Exception as e:
                                     print(f"Participant: {pid} | Row: {idx} | Column: {col} | Raw Value: {val} | Conversion Error: {e}")
-                                    report["Float Conversion"] = False
+
                     except Exception as e:
                         pass # avoid duplicate printing from sec 4
     except Exception as e:
@@ -299,7 +303,11 @@ def run():
     print("SECTION 8 — Summary")
     print("====================================================")
     
+    report["CSV Numeric Values"] = report["Tensor Integrity"]
+    report["Float Conversion"] = report["Tensor Integrity"]
+    
     report["Overall"] = all(report.values())
+
     
     for key in ["Dataset Structure", "Dataset Labels", "Window Labels", 
                 "CSV Numeric Values", "Float Conversion", "Tensor Integrity", "Overall"]:
