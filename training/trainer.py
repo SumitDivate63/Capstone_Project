@@ -83,6 +83,11 @@ class VisualTrainer:
                 all_preds.extend(preds.cpu().numpy().tolist())
                 all_targets.extend(targets.cpu().numpy().tolist())
                 
+                assert len(all_targets) == len(all_preds), (
+                    f"Target/prediction count mismatch after batch {batch_idx}: "
+                    f"{len(all_targets)} targets vs {len(all_preds)} preds"
+                )
+                
                 if not is_train and pids is not None:
                     # Accumulate softmax probabilities for participant-level aggregation
                     probs = torch.softmax(logits, dim=1).detach().cpu().numpy()
