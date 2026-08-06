@@ -28,7 +28,7 @@ class VisualTrainer:
         self.best_metric = -1.0
         self.global_step = 0
         
-    def _run_epoch(self, dataloader: DataLoader, is_train: bool) -> Dict[str, Any]:
+    def _run_epoch(self, dataloader: DataLoader, is_train: bool, return_debug: bool = False) -> Dict[str, Any]:
         """Unified internal tracking iteration separating compute graphs appropriately."""
         if is_train:
             self.model.train()
@@ -38,10 +38,18 @@ class VisualTrainer:
         total_loss = 0.0
         all_preds = []
         all_targets = []
+        # for participant-level accumulation (validation only)
+        pid_logits = {}
+        pid_targets = {}
         
         with torch.set_grad_enabled(is_train):
             for batch_idx, batch in enumerate(dataloader):
-                inputs, targets = batch
+                if len(batch) == 3:
+                    inputs, targets, pids = batch
+                else:
+                    inputs, targets = batch
+                    pids = None
+                    
                 inputs = inputs.to(self.device)
                 targets = targets.to(self.device)
                 
@@ -73,19 +81,52 @@ class VisualTrainer:
                 preds = torch.argmax(logits, dim=1)
                 
                 all_preds.extend(preds.cpu().numpy().tolist())
-                all_targets.extend(targets.cpu().numpy().tolist())
                 
+                if not is_train and pids is not None:
+                    # Accumulate softmax probabilities for participant-level aggregation
+                    probs = torch.softmax(logits, dim=1).detach().cpu().numpy()
+                    targets_np = targets.detach().cpu().numpy()
+                    pids_np = pids.detach().cpu().numpy()
+                    
+                    for i, pid in enumerate(pids_np):
+                        pid = int(pid)
+                        if pid not in pid_logits:
+                            pid_logits[pid] = []
+                            pid_targets[pid] = targets_np[i]
+                        pid_logits[pid].append(probs[i])
+                        
         # Normalize bounds safely natively without complex reducers
         avg_loss = total_loss / max(len(dataloader.dataset), 1)
-        return compute_metrics(all_targets, all_preds, avg_loss)
+        window_metrics = compute_metrics(all_targets, all_preds, avg_loss)
+        
+        if not is_train and pid_logits:
+            import numpy as np
+            part_targets = []
+            part_preds = []
+            for pid, probs_list in pid_logits.items():
+                mean_probs = np.mean(probs_list, axis=0)
+                pred_label = np.argmax(mean_probs)
+                part_preds.append(pred_label)
+                part_targets.append(pid_targets[pid])
+                
+            part_metrics = compute_metrics(part_targets, part_preds, avg_loss)
+            part_metrics['window_accuracy'] = window_metrics['accuracy'] # Diagnostic
+            
+            if return_debug:
+                part_metrics['pid_logits'] = pid_logits
+                part_metrics['pid_targets'] = pid_targets
+                
+            return part_metrics
+            
+        return window_metrics
 
     def train(self, dataloader: DataLoader) -> Dict[str, Any]:
         """Orchestrates backward pass mapping per mini-batch sequence."""
         return self._run_epoch(dataloader, is_train=True)
         
-    def validate(self, dataloader: DataLoader) -> Dict[str, Any]:
+    def validate(self, dataloader: DataLoader, return_debug: bool = False) -> Dict[str, Any]:
         """Freezes tensors and asserts generalization constraints."""
-        return self._run_epoch(dataloader, is_train=False)
+        return self._run_epoch(dataloader, is_train=False, return_debug=return_debug)
 
     def fit(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int, metric_for_best: str = 'f1'):
         """

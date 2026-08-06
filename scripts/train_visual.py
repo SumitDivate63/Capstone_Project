@@ -1,7 +1,13 @@
-import torch
+import os
+import json
+import random
 import time
-from typing import List, Tuple
+import torch
+import numpy as np
+from pathlib import Path
+from typing import List, Tuple, Dict, Any
 from torch.utils.data import Dataset, DataLoader
+from sklearn.model_selection import StratifiedKFold
 
 from datasets.daic_dataset import DAICDataset
 from preprocessing.visual.pipeline import VisualPreprocessingPipeline, VisualPreprocessingConfig
@@ -11,9 +17,20 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+def set_seed(seed: int = 42):
+    """Ensure reproducibility."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
 class ProcessedVisualDataset(Dataset):
-    """Zero-copy wrapper translating fully transformed window tensors cleanly into standard iterable shapes."""
-    def __init__(self, data: List[Tuple[torch.Tensor, int]]):
+    """
+    Zero-copy wrapper translating fully transformed window tensors cleanly into standard iterable shapes.
+    Yields (window_tensor, label, participant_id).
+    """
+    def __init__(self, data: List[Tuple[torch.Tensor, int, int]]):
         self.data = data
         
     def __len__(self):
@@ -23,115 +40,74 @@ class ProcessedVisualDataset(Dataset):
         return self.data[idx]
 
 
-def extract_valid_sequences(
+def extract_participant_sequences(
     dataset: DAICDataset, 
     pipeline: VisualPreprocessingPipeline, 
     is_train: bool
-) -> List[Tuple[torch.Tensor, int]]:
-    """Traverses DAIC records converting visual modalities directly into windowed batches efficiently."""
-    results = []
+) -> List[Dict[str, Any]]:
+    """Traverses DAIC records converting visual modalities into windowed batches efficiently."""
+    pt_data = []
     
     if is_train:
         train_visuals = []
         for i in range(len(dataset)):
             try:
+                # Need to check 409 handling explicitly
+                if dataset[i]['participant_id'] == 409:
+                    continue
                 train_visuals.append(dataset[i]["visual"])
             except Exception:
                 pass
         pipeline.fit(train_visuals)
 
-    participants_loaded = 0
-    participants_skipped = 0
-    windows_generated = 0
-    healthy_windows = 0
-    depressed_windows = 0
-
     skipped_ids = []
-    healthy_participants = 0
-    depressed_participants = 0
-    seq_lengths = []
-    corrupted_csvs = 0
-    missing_csvs = 0
-    invalid_features = 0
-    empty_participants = 0
+    
+    # ---------------------------------------------------------
+    # PART 1: 409 HANDLING ABLATION FLAG
+    # ---------------------------------------------------------
+    # Scaffold config flag for experiments: Experiment A (include, default) vs B (exclude 409)
+    exclude_ids = [] # e.g. [409]
+    
+    if 409 not in exclude_ids:
+        logger.info("Participant 409 is retained using the official dataset annotation (label source: official phq8_binary, not threshold-derived).")
     
     for i in range(len(dataset)):
         pt = dataset[i]
         pid = pt["participant_id"]
+        
+        if pid in exclude_ids:
+            logger.info(f"Skipping participant {pid} due to exclude_ids config.")
+            skipped_ids.append(pid)
+            continue
+            
         label = pt["labels"]["phq8_binary"]
         
         try:
             tensor = pipeline.transform(pid, pt["visual"])
             w_count = tensor.size(0)
             if w_count == 0:
-                print(f"Participant {pid} skipped\nReason:\nNot enough frames for window generation\n\nRows affected:\n0\n\nColumns:\n0\n\nAction:\nSkipped safely")
-                participants_skipped += 1
                 skipped_ids.append(pid)
-                empty_participants += 1
                 continue
                 
-            windows_generated += w_count
-            if label == 0:
-                healthy_windows += w_count
-                healthy_participants += 1
-            else:
-                depressed_windows += w_count
-                depressed_participants += 1
-                
-            seq_lengths.append(tensor.size(1))
-                
-            for w in range(w_count):
-                results.append((tensor[w], label))
-            participants_loaded += 1
-        except Exception as e:
-            # We assume errors like corrupted data raised from pipeline are handled here
-            err_msg = str(e).lower()
-            if "invalid openface" in err_msg or "corrupted" in err_msg:
-                invalid_features += 1
-                corrupted_csvs += 1
-            elif "not found" in err_msg or "missing" in err_msg:
-                missing_csvs += 1
+            windows = [tensor[w] for w in range(w_count)]
             
-            participants_skipped += 1
+            pt_data.append({
+                "pid": pid,
+                "label": label,
+                "windows": windows
+            })
+        except Exception as e:
             skipped_ids.append(pid)
             
-    print("\n==============================")
-    print("DATASET SUMMARY")
-    print("==============================")
-    print(f"Participants Found\n{len(dataset)}\n")
-    print(f"Participants Loaded\n{participants_loaded}\n")
-    print(f"Participants Skipped\n{participants_skipped}\n")
-    print(f"Skipped IDs\n{skipped_ids}\n")
-    print(f"Healthy Participants\n{healthy_participants}\n")
-    print(f"Depressed Participants\n{depressed_participants}\n")
-    print(f"Total Windows\n{windows_generated}\n")
-    print(f"Healthy Windows\n{healthy_windows}\n")
-    print(f"Depressed Windows\n{depressed_windows}\n")
-    
-    avg_windows = windows_generated / participants_loaded if participants_loaded > 0 else 0
-    print(f"Average Windows per Participant\n{avg_windows:.2f}\n")
-    print(f"Corrupted CSV Files\n{corrupted_csvs}\n")
-    print(f"Missing CSV Files\n{missing_csvs}\n")
-    print(f"Invalid Feature Files\n{invalid_features}\n")
-    print(f"Empty Participants\n{empty_participants}\n")
-    
-    max_seq = max(seq_lengths) if seq_lengths else 0
-    min_seq = min(seq_lengths) if seq_lengths else 0
-    print(f"Maximum Sequence Length\n{max_seq}\n")
-    print(f"Minimum Sequence Length\n{min_seq}\n")
-    
-    print(f"Window Size\n{pipeline.config.window_size}\n")
-    feature_dim = pipeline.feature_columns
-    print(f"Feature Dimension\n{len(feature_dim) if feature_dim else 393}\n")
-    print("==============================")
-            
-    return results
+    logger.info(f"Loaded {len(pt_data)} participants successfully. Skipped {len(skipped_ids)} participants.")
+    return pt_data
 
-
-def main():
+def run_kfold_cv():
+    set_seed(42)
     start_time = time.time()
     
     logger.info("Accessing primary Data bindings...")
+    # Load and merge train + dev for CV
     train_dataset = DAICDataset(split="train", load_audio=False, load_text=False)
     dev_dataset = DAICDataset(split="dev", load_audio=False, load_text=False)
     
@@ -139,24 +115,114 @@ def main():
     pipeline = VisualPreprocessingPipeline(config)
     
     logger.info("Pushing continuous training sequences...")
-    train_data = extract_valid_sequences(train_dataset, pipeline, is_train=True)
+    train_pts = extract_participant_sequences(train_dataset, pipeline, is_train=True)
     
     logger.info("Validating independent continuous test matrices...")
-    dev_data = extract_valid_sequences(dev_dataset, pipeline, is_train=False)
+    # We do NOT run pipeline.fit on dev, so is_train=False
+    dev_pts = extract_participant_sequences(dev_dataset, pipeline, is_train=False)
     
-    # Native PyTorch structural batching
-    train_loader = DataLoader(ProcessedVisualDataset(train_data), batch_size=32, shuffle=True)
-    dev_loader = DataLoader(ProcessedVisualDataset(dev_data), batch_size=32, shuffle=False)
+    # Merge for K-Fold
+    all_pts = train_pts + dev_pts
     
-    model = VisualModel()
-    trainer = VisualTrainer(model)
+    pids = [pt["pid"] for pt in all_pts]
+    labels = [pt["label"] for pt in all_pts]
     
-    trainer.fit(train_loader, dev_loader, epochs=10)
+    # K-Fold Stratified
+    k_folds = 5
+    skf = StratifiedKFold(n_splits=k_folds, shuffle=True, random_state=42)
     
-    duration = (time.time() - start_time) / 60
-    logger.info(f"Target execution completed!")
-    logger.info(f"Best Validation F1 Outcome: {trainer.best_f1:.4f}")
-    logger.info(f"Overall Training Execution Time: {duration:.2f} minutes")
+    fold_metrics = []
+    
+    out_dir = Path("outputs")
+    out_dir.mkdir(exist_ok=True)
+    folds_log = out_dir / "fold_assignments.json"
+    fold_assignments = {}
+
+    for fold, (train_idx, val_idx) in enumerate(skf.split(pids, labels), 1):
+        logger.info(f"\n{'='*40}\nStarting Fold {fold}/{k_folds}\n{'='*40}")
+        
+        train_pids = [pids[i] for i in train_idx]
+        val_pids = [pids[i] for i in val_idx]
+        fold_assignments[f"Fold_{fold}"] = {"train": train_pids, "val": val_pids}
+        
+        # Flatten to Windows
+        train_data = []
+        val_data = []
+        
+        # ---------------------------------------------------------
+        # PART 2: DYNAMIC PARTICIPANT-LEVEL CLASS COUNTS & WEIGHTS
+        # ---------------------------------------------------------
+        part_0_count = 0
+        part_1_count = 0
+        
+        for idx in train_idx:
+            pt = all_pts[idx]
+            
+            # Participant-level count for weights
+            if pt["label"] == 0:
+                part_0_count += 1
+            else:
+                part_1_count += 1
+                
+            for w in pt["windows"]:
+                train_data.append((w, pt["label"], pt["pid"]))
+                
+        for idx in val_idx:
+            pt = all_pts[idx]
+            for w in pt["windows"]:
+                val_data.append((w, pt["label"], pt["pid"]))
+
+        # Class imbalance logic dynamically per fold (Participant-level counts)
+        if part_0_count > 0 and part_1_count > 0:
+            counts = np.array([part_0_count, part_1_count])
+            weights = 1.0 / counts
+            weights = weights / weights.sum() * 2.0
+            class_weights_tensor = torch.tensor(weights, dtype=torch.float32)
+        else:
+            class_weights_tensor = None
+            
+        logger.info(f"\nFold {fold}")
+        logger.info(f"Healthy participants   : {part_0_count}")
+        logger.info(f"Depressed participants : {part_1_count}")
+        
+        weights_str = f"[{weights[0]:.4f}, {weights[1]:.4f}]" if class_weights_tensor is not None else "None"
+        logger.info(f"Class weights          : {weights_str}")
+        
+        train_loader = DataLoader(ProcessedVisualDataset(train_data), batch_size=32, shuffle=True)
+        dev_loader = DataLoader(ProcessedVisualDataset(val_data), batch_size=32, shuffle=False)
+        
+        model = VisualModel()
+        trainer = VisualTrainer(model, device="cuda" if torch.cuda.is_available() else "cpu", class_weights=class_weights_tensor)
+        
+        trainer.fit(train_loader, dev_loader, epochs=10, metric_for_best="f1")
+        
+        # Last validation eval for logging
+        logger.info(f"Running final validation for fold {fold}...")
+        val_metrics = trainer.validate(dev_loader)
+        fold_metrics.append(val_metrics)
+        
+    # Write assignments
+    with open(folds_log, "w") as f:
+        json.dump(fold_assignments, f, indent=4)
+        
+    logger.info(f"\nFold assignments logged to {folds_log}")
+
+    # Summary Statistics
+    accs = [m['accuracy'] for m in fold_metrics]
+    f1s = [m['f1'] for m in fold_metrics]
+    precs = [m['precision'] for m in fold_metrics]
+    recs = [m['recall'] for m in fold_metrics]
+    
+    logger.info("\n==================================")
+    logger.info("FINAL K-FOLD CROSS-VALIDATION RESULTS")
+    logger.info("==================================")
+    logger.info(f"Accuracy : {np.mean(accs):.4f} ± {np.std(accs):.4f}")
+    logger.info(f"F1 Score : {np.mean(f1s):.4f} ± {np.std(f1s):.4f}")
+    logger.info(f"Precision: {np.mean(precs):.4f} ± {np.std(precs):.4f}")
+    logger.info(f"Recall   : {np.mean(recs):.4f} ± {np.std(recs):.4f}")
+    
+    total_time = (time.time() - start_time) / 60
+    logger.info(f"Total Execution Time: {total_time:.2f} minutes")
 
 if __name__ == "__main__":
-    main()
+    run_kfold_cv()
