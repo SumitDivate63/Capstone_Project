@@ -81,6 +81,7 @@ class VisualTrainer:
                 preds = torch.argmax(logits, dim=1)
                 
                 all_preds.extend(preds.cpu().numpy().tolist())
+                all_targets.extend(targets.cpu().numpy().tolist())
                 
                 if not is_train and pids is not None:
                     # Accumulate softmax probabilities for participant-level aggregation

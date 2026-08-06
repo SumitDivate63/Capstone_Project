@@ -24,8 +24,13 @@ def main():
     
     # 1. Access Data
     print("Accessing datasets...")
-    train_dataset = DAICDataset(split="train", load_audio=False, load_text=False)
-    dev_dataset = DAICDataset(split="dev", load_audio=False, load_text=False)
+    train_dataset_full = DAICDataset(split="train", load_audio=False, load_text=False)
+    dev_dataset_full = DAICDataset(split="dev", load_audio=False, load_text=False)
+    
+    # Subset early to save preprocessing time for the smoke test
+    from torch.utils.data import Subset
+    train_dataset = Subset(train_dataset_full, range(min(20, len(train_dataset_full))))
+    dev_dataset = Subset(dev_dataset_full, range(min(10, len(dev_dataset_full))))
     
     config = VisualPreprocessingConfig(window_size=150, stride=75)
     pipeline = VisualPreprocessingPipeline(config)
