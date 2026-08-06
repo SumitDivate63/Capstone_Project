@@ -76,7 +76,7 @@ def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> D
     Detects invalid values like -1.#IND, INF, converts to numeric, logs counts.
     Raises ValueError if completely unrecoverable.
     """
-    invalid_strs = ["-1.#IND", "1.#IND", "IND", "INF", "-INF", "-inf", "inf", "NaN", "nan", "None", "", "Infinity"]
+    invalid_strs = ["-1.#IND", "1.#QNAN", "-1.#INF", "INF", "NaN", "1.#IND", "IND", "-INF", "-inf", "inf", "nan", "None", "", "Infinity"]
     cleaned_dfs = {}
     
     total_invalid = 0
@@ -86,6 +86,8 @@ def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> D
     
     for name, df in dfs.items():
         df_clean = df.copy()
+        
+        # Determine exact replacement targets before applying
         for col in df_clean.columns:
             if df_clean[col].dtype == object or str(df_clean[col].dtype).startswith('str'):
                 mask = df_clean[col].astype(str).str.strip().isin(invalid_strs)
@@ -94,16 +96,12 @@ def clean_invalid_values(dfs: Dict[str, pd.DataFrame], participant_id: int) -> D
                     cols_affected.add(col)
                     rows_affected.update(df_clean.index[mask].tolist())
                     
+        df_clean = df_clean.replace(invalid_strs, np.nan)
+        
+        for col in df_clean.columns:
+            if col != 'frame':
                 df_clean[col] = pd.to_numeric(df_clean[col], errors='coerce')
-                
-            if pd.api.types.is_numeric_dtype(df_clean[col]):
-                inf_mask = np.isinf(df_clean[col])
-                if inf_mask.any():
-                    total_invalid += inf_mask.sum()
-                    cols_affected.add(col)
-                    rows_affected.update(df_clean.index[inf_mask].tolist())
-                    df_clean.loc[inf_mask, col] = np.nan
-                    
+        
         # Check if all feature rows are null
         feat_cols = [c for c in df_clean.columns if c != 'frame']
         if len(feat_cols) > 0 and df_clean[feat_cols].isna().all().all():

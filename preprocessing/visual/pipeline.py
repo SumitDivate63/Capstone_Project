@@ -1,5 +1,6 @@
 import torch
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from typing import Dict, Any, Tuple
 from dataclasses import dataclass
@@ -44,6 +45,21 @@ class VisualPreprocessingPipeline:
             if col not in ignore_cols and pd.api.types.is_numeric_dtype(df[col])
         ]
 
+    def _print_stats(self, participant_id: int, tensor: torch.Tensor = None) -> None:
+        stats = getattr(self.preprocessor, "_last_stats", {})
+        print(f"Participant {participant_id}")
+        print(f"Original Shape: {stats.get('Original Shape', 'N/A')}")
+        print(f"NaN count before cleaning: {stats.get('NaN count before cleaning', 'N/A')}")
+        print(f"NaN count after interpolation: {stats.get('NaN count after interpolation', 'N/A')}")
+        if tensor is not None:
+            print(f"Tensor Shape: {list(tensor.shape)}")
+            print(f"Tensor dtype: {tensor.dtype}")
+        else:
+            print(f"Tensor Shape: N/A")
+            print(f"Tensor dtype: N/A")
+        print(f"Finite values check: {stats.get('Finite values check', 'PASS')}")
+
+
     def fit(self, visual_data_list: list[Dict[str, pd.DataFrame]]) -> None:
         """
         Fits the normalizer entirely on a collection of training participants incrementally.
@@ -67,6 +83,8 @@ class VisualPreprocessingPipeline:
                 print("Scaler Updated")
                 processed_count += 1
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 logger.error(f"Skipping participant {idx} in fitting due to errors: {e}")
                 
         if processed_count == 0:
@@ -124,6 +142,7 @@ class VisualPreprocessingPipeline:
             f"Participant {participant_id}: Processed Tensor Formed -> "
             f"Shape: {list(windows_tensor.shape)}, Type: {self.config.normalization}"
         )
+        self._print_stats(participant_id, windows_tensor)
         return windows_tensor
 
 
@@ -143,6 +162,7 @@ class VisualPreprocessingPipeline:
             self.config.window_size, 
             self.config.stride
         )
+        self._print_stats(participant_id, windows_tensor)
         return windows_tensor
 
     def save_scaler(self, path_str: str) -> None:

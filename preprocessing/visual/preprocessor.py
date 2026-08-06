@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from typing import Dict, Any, List
 
 from .frame_utils import validate_frames, synchronize_frames, handle_infinities, interpolate_missing, clean_invalid_values
@@ -34,6 +35,11 @@ class VisualPreprocessor:
             if isinstance(value, pd.DataFrame):
                 dfs_to_process[key] = value
                 
+        # Calculate stats for logging
+        orig_shape = list(dfs_to_process.values())[0].shape if dfs_to_process else (0, 0)
+        invalid_strs = ["-1.#IND", "1.#QNAN", "-1.#INF", "INF", "NaN", "1.#IND", "IND", "-INF", "-inf", "inf", "nan", "None", "", "Infinity"]
+        nan_before = sum([df.isin(invalid_strs).sum().sum() + df.isna().sum().sum() for df in dfs_to_process.values()])
+                
         # 0. Clean string artifacts and infs
         dfs_to_process = clean_invalid_values(dfs_to_process, participant_id)
 
@@ -60,6 +66,7 @@ class VisualPreprocessor:
         # 4. Handle NaNs
         na_count = cleansed_df.isnull().sum().sum()
         cleansed_df = interpolate_missing(cleansed_df, method=self.interpolation_method)
+        nan_after = cleansed_df.isnull().sum().sum()
         
         if na_count > 0:
              logger.info(f"Participant {participant_id}: Interpolated {na_count} missing/infinite values.")
@@ -68,19 +75,30 @@ class VisualPreprocessor:
         # The prompt requires column-wise fusion which is achieved inherently via `synchronize_frames`.
         
         # Numeric Validation
+        finite_check = "PASS"
         for col in cleansed_df.columns:
             if col == 'frame': continue
             
             if cleansed_df[col].dtype == object or str(cleansed_df[col].dtype).startswith('str') or cleansed_df[col].dtype == 'category':
+                finite_check = "FAIL"
                 print(f"Participant {participant_id} skipped\nReason:\nObject/String/Mixed dtype found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
                 raise ValueError("Validation Failed: Object/String/Mixed dtype")
             
             if not np.isfinite(cleansed_df[col]).all():
+                finite_check = "FAIL"
                 print(f"Participant {participant_id} skipped\nReason:\nNon-finite values found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
                 raise ValueError("Validation Failed: Non-finite values")
                 
             if cleansed_df[col].isna().any():
+                finite_check = "FAIL"
                 print(f"Participant {participant_id} skipped\nReason:\nNaN values found after cleaning\n\nRows affected:\n0\n\nColumns:\n1\n\nAction:\nSkipped safely")
                 raise ValueError("Validation Failed: NaN values")
+                
+        self._last_stats = {
+            "Original Shape": orig_shape,
+            "NaN count before cleaning": nan_before,
+            "NaN count after interpolation": nan_after,
+            "Finite values check": finite_check
+        }
                 
         return cleansed_df
