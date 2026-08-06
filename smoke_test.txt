@@ -1,0 +1,1702 @@
+========================================
+VISUAL CV PIPELINE SMOKE TEST
+========================================
+Accessing datasets...
+2026-08-06 15:58:17,130 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-06 15:58:17,130 - datasets.daic_dataset - INFO - Number of participants: 101
+2026-08-06 15:58:17,130 - datasets.daic_dataset - INFO - Selected split: train
+2026-08-06 15:58:17,130 - datasets.daic_dataset - INFO - Selected modalities - Visual: True, Audio: False, Text: False
+2026-08-06 15:58:17,133 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-06 15:58:17,134 - datasets.daic_dataset - INFO - Number of participants: 33
+2026-08-06 15:58:17,134 - datasets.daic_dataset - INFO - Selected split: dev
+2026-08-06 15:58:17,134 - datasets.daic_dataset - INFO - Selected modalities - Visual: True, Audio: False, Text: False
+Participant 0
+Scaler Updated
+Participant 1
+Scaler Updated
+Participant 2
+Scaler Updated
+Participant 3
+Scaler Updated
+Participant 4
+Scaler Updated
+Participant 5
+Scaler Updated
+Participant 6
+Scaler Updated
+Participant 7
+Scaler Updated
+Participant 8
+Scaler Updated
+Participant 9
+Scaler Updated
+Participant 10
+Scaler Updated
+Participant 11
+Scaler Updated
+Participant 12
+Scaler Updated
+Participant 13
+Scaler Updated
+Participant 14
+Scaler Updated
+Participant 15
+Scaler Updated
+Participant 16
+Scaler Updated
+Participant 17
+Scaler Updated
+Participant 18
+Scaler Updated
+Participant 19
+Scaler Updated
+Participant 20
+Scaler Updated
+Participant 21
+Scaler Updated
+Participant 22
+Scaler Updated
+Participant 23
+Scaler Updated
+Participant 24
+Scaler Updated
+Participant 25
+Scaler Updated
+Participant 26
+Scaler Updated
+Participant 27
+Scaler Updated
+Participant 28
+Scaler Updated
+Participant 29
+Scaler Updated
+Participant 30
+Scaler Updated
+Participant 31
+Scaler Updated
+Participant 32
+Scaler Updated
+Participant 33
+Scaler Updated
+Participant 34
+Scaler Updated
+Participant 35
+Scaler Updated
+Participant 36
+Scaler Updated
+Participant 37
+Scaler Updated
+Participant 38
+Scaler Updated
+Participant 39
+Scaler Updated
+Participant 40
+Scaler Updated
+Participant 41
+Scaler Updated
+Participant 42
+Scaler Updated
+Participant 43
+Scaler Updated
+Participant 44
+Scaler Updated
+Participant 45
+Scaler Updated
+Participant 46
+Scaler Updated
+Participant 47
+Scaler Updated
+Participant 48
+Scaler Updated
+Participant 49
+Scaler Updated
+Participant 50
+Scaler Updated
+Participant 51
+Scaler Updated
+Participant 52
+Scaler Updated
+Participant 53
+Scaler Updated
+Participant 54
+Scaler Updated
+Participant 55
+Scaler Updated
+Participant 56
+Scaler Updated
+Participant 57
+Scaler Updated
+Participant 58
+Scaler Updated
+Participant 59
+Scaler Updated
+Participant 60
+Scaler Updated
+Participant 61
+Scaler Updated
+Participant 62
+Scaler Updated
+Participant 63
+Scaler Updated
+Participant 64
+Scaler Updated
+Participant 65
+Scaler Updated
+Participant 66
+Scaler Updated
+Participant 67
+Scaler Updated
+Participant 68
+Scaler Updated
+Participant 69
+Scaler Updated
+Participant 70
+Scaler Updated
+Participant 71
+Scaler Updated
+Participant 72
+Scaler Updated
+Participant 73
+Scaler Updated
+Participant 74
+Scaler Updated
+Participant 75
+Scaler Updated
+Participant 76
+Scaler Updated
+Participant 77
+Scaler Updated
+Participant 78
+Scaler Updated
+Participant 79
+Scaler Updated
+Participant 80
+Scaler Updated
+Participant 81
+Scaler Updated
+Participant 82
+Scaler Updated
+Participant 83
+Scaler Updated
+Participant 84
+Scaler Updated
+Participant 85
+Scaler Updated
+Participant 86
+Scaler Updated
+Participant 87
+Scaler Updated
+Participant 88
+Scaler Updated
+Participant 89
+Scaler Updated
+Participant 90
+Scaler Updated
+Participant 91
+Scaler Updated
+Participant 92
+Scaler Updated
+Participant 93
+Scaler Updated
+Participant 94
+Scaler Updated
+Participant 95
+Scaler Updated
+Participant 96
+Scaler Updated
+Participant 97
+Scaler Updated
+Participant 98
+Scaler Updated
+Participant 99
+Scaler Updated
+Finished fitting scaler
+Processed Participants : 100
+Features : 393
+2026-08-06 16:26:24,261 - scripts.train_visual - INFO - Participant 409 is retained using the official dataset annotation (label source: official phq8_binary, not threshold-derived).
+2026-08-06 16:26:35,621 - preprocessing.visual.pipeline - INFO - Participant 315: Processed Tensor Formed -> Shape: [393, 150, 393], Type: standard
+Participant 315
+Original Shape: (29561, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [393, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:26:43,914 - preprocessing.visual.pipeline - INFO - Participant 316: Processed Tensor Formed -> Shape: [350, 150, 393], Type: standard
+Participant 316
+Original Shape: (26337, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [350, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:26:52,134 - preprocessing.visual.pipeline - INFO - Participant 317: Processed Tensor Formed -> Shape: [324, 150, 393], Type: standard
+Participant 317
+Original Shape: (24395, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [324, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:26:57,628 - preprocessing.visual.pipeline - INFO - Participant 318: Processed Tensor Formed -> Shape: [236, 150, 393], Type: standard
+Participant 318
+Original Shape: (17833, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [236, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:04,410 - preprocessing.visual.pipeline - INFO - Participant 319: Processed Tensor Formed -> Shape: [273, 150, 393], Type: standard
+Participant 319
+Original Shape: (20603, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [273, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:12,406 - preprocessing.visual.pipeline - INFO - Participant 320: Processed Tensor Formed -> Shape: [338, 150, 393], Type: standard
+Participant 320
+Original Shape: (25480, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [338, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:20,413 - preprocessing.visual.pipeline - INFO - Participant 321: Processed Tensor Formed -> Shape: [327, 150, 393], Type: standard
+Participant 321
+Original Shape: (24658, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [327, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:34,202 - preprocessing.visual.pipeline - INFO - Participant 322: Processed Tensor Formed -> Shape: [417, 150, 393], Type: standard
+Participant 322
+Original Shape: (31412, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [417, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:41,072 - preprocessing.visual.pipeline - INFO - Participant 324: Processed Tensor Formed -> Shape: [287, 150, 393], Type: standard
+Participant 324
+Original Shape: (21640, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [287, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:49,594 - preprocessing.visual.pipeline - INFO - Participant 325: Processed Tensor Formed -> Shape: [349, 150, 393], Type: standard
+Participant 325
+Original Shape: (26251, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [349, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:27:58,959 - preprocessing.visual.pipeline - INFO - Participant 326: Processed Tensor Formed -> Shape: [278, 150, 393], Type: standard
+Participant 326
+Original Shape: (20982, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [278, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:28:07,461 - preprocessing.visual.pipeline - INFO - Participant 327: Processed Tensor Formed -> Shape: [271, 150, 393], Type: standard
+Participant 327
+Original Shape: (20427, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [271, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:28:30,682 - preprocessing.visual.pipeline - INFO - Participant 328: Processed Tensor Formed -> Shape: [425, 150, 393], Type: standard
+Participant 328
+Original Shape: (31956, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [425, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:28:38,766 - preprocessing.visual.pipeline - INFO - Participant 330: Processed Tensor Formed -> Shape: [307, 150, 393], Type: standard
+Participant 330
+Original Shape: (23146, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [307, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:28:51,544 - preprocessing.visual.pipeline - INFO - Participant 333: Processed Tensor Formed -> Shape: [386, 150, 393], Type: standard
+Participant 333
+Original Shape: (29081, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [386, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:02,128 - preprocessing.visual.pipeline - INFO - Participant 336: Processed Tensor Formed -> Shape: [376, 150, 393], Type: standard
+Participant 336
+Original Shape: (28337, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [376, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:07,787 - preprocessing.visual.pipeline - INFO - Participant 338: Processed Tensor Formed -> Shape: [237, 150, 393], Type: standard
+Participant 338
+Original Shape: (17906, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [237, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:16,488 - preprocessing.visual.pipeline - INFO - Participant 339: Processed Tensor Formed -> Shape: [344, 150, 393], Type: standard
+Participant 339
+Original Shape: (25892, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [344, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:21,884 - preprocessing.visual.pipeline - INFO - Participant 340: Processed Tensor Formed -> Shape: [238, 150, 393], Type: standard
+Participant 340
+Original Shape: (17980, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [238, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:30,908 - preprocessing.visual.pipeline - INFO - Participant 341: Processed Tensor Formed -> Shape: [346, 150, 393], Type: standard
+Participant 341
+Original Shape: (26027, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [346, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:40,721 - preprocessing.visual.pipeline - INFO - Participant 343: Processed Tensor Formed -> Shape: [369, 150, 393], Type: standard
+Participant 343
+Original Shape: (27819, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [369, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:29:52,287 - preprocessing.visual.pipeline - INFO - Participant 344: Processed Tensor Formed -> Shape: [435, 150, 393], Type: standard
+Participant 344
+Original Shape: (32718, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [435, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:00,355 - preprocessing.visual.pipeline - INFO - Participant 345: Processed Tensor Formed -> Shape: [316, 150, 393], Type: standard
+Participant 345
+Original Shape: (23818, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [316, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:05,985 - preprocessing.visual.pipeline - INFO - Participant 347: Processed Tensor Formed -> Shape: [243, 150, 393], Type: standard
+Participant 347
+Original Shape: (18348, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [243, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:12,297 - preprocessing.visual.pipeline - INFO - Participant 348: Processed Tensor Formed -> Shape: [286, 150, 393], Type: standard
+Participant 348
+Original Shape: (21584, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [286, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:21,351 - preprocessing.visual.pipeline - INFO - Participant 350: Processed Tensor Formed -> Shape: [351, 150, 393], Type: standard
+Participant 350
+Original Shape: (26455, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [351, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:28,741 - preprocessing.visual.pipeline - INFO - Participant 351: Processed Tensor Formed -> Shape: [306, 150, 393], Type: standard
+Participant 351
+Original Shape: (23090, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [306, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:36,102 - preprocessing.visual.pipeline - INFO - Participant 352: Processed Tensor Formed -> Shape: [303, 150, 393], Type: standard
+Participant 352
+Original Shape: (22808, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [303, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:45,353 - preprocessing.visual.pipeline - INFO - Participant 353: Processed Tensor Formed -> Shape: [313, 150, 393], Type: standard
+Participant 353
+Original Shape: (23584, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [313, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:30:52,692 - preprocessing.visual.pipeline - INFO - Participant 355: Processed Tensor Formed -> Shape: [268, 150, 393], Type: standard
+Participant 355
+Original Shape: (20242, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [268, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:06,501 - preprocessing.visual.pipeline - INFO - Participant 356: Processed Tensor Formed -> Shape: [380, 150, 393], Type: standard
+Participant 356
+Original Shape: (28624, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [380, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:10,503 - preprocessing.visual.pipeline - INFO - Participant 357: Processed Tensor Formed -> Shape: [164, 150, 393], Type: standard
+Participant 357
+Original Shape: (12447, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [164, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:16,475 - preprocessing.visual.pipeline - INFO - Participant 358: Processed Tensor Formed -> Shape: [258, 150, 393], Type: standard
+Participant 358
+Original Shape: (19438, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [258, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:20,614 - preprocessing.visual.pipeline - INFO - Participant 360: Processed Tensor Formed -> Shape: [175, 150, 393], Type: standard
+Participant 360
+Original Shape: (13214, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [175, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:25,956 - preprocessing.visual.pipeline - INFO - Participant 362: Processed Tensor Formed -> Shape: [235, 150, 393], Type: standard
+Participant 362
+Original Shape: (17710, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [235, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:39,526 - preprocessing.visual.pipeline - INFO - Participant 363: Processed Tensor Formed -> Shape: [489, 150, 393], Type: standard
+Participant 363
+Original Shape: (36814, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [489, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:31:58,542 - preprocessing.visual.pipeline - INFO - Participant 364: Processed Tensor Formed -> Shape: [711, 150, 393], Type: standard
+Participant 364
+Original Shape: (53447, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [711, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:32:10,790 - preprocessing.visual.pipeline - INFO - Participant 366: Processed Tensor Formed -> Shape: [524, 150, 393], Type: standard
+Participant 366
+Original Shape: (39381, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [524, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:32:23,440 - preprocessing.visual.pipeline - INFO - Participant 368: Processed Tensor Formed -> Shape: [540, 150, 393], Type: standard
+Participant 368
+Original Shape: (40645, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [540, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:32:33,473 - preprocessing.visual.pipeline - INFO - Participant 369: Processed Tensor Formed -> Shape: [415, 150, 393], Type: standard
+Participant 369
+Original Shape: (31236, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [415, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:32:45,411 - preprocessing.visual.pipeline - INFO - Participant 370: Processed Tensor Formed -> Shape: [482, 150, 393], Type: standard
+Participant 370
+Original Shape: (36262, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [482, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:32:54,301 - preprocessing.visual.pipeline - INFO - Participant 371: Processed Tensor Formed -> Shape: [363, 150, 393], Type: standard
+Participant 371
+Original Shape: (27356, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [363, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:33:14,801 - preprocessing.visual.pipeline - INFO - Participant 372: Processed Tensor Formed -> Shape: [604, 150, 393], Type: standard
+Participant 372
+Original Shape: (45416, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [604, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:33:27,170 - preprocessing.visual.pipeline - INFO - Participant 374: Processed Tensor Formed -> Shape: [514, 150, 393], Type: standard
+Participant 374
+Original Shape: (38631, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [514, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:33:32,907 - preprocessing.visual.pipeline - INFO - Participant 375: Processed Tensor Formed -> Shape: [247, 150, 393], Type: standard
+Participant 375
+Original Shape: (18636, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [247, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:33:42,654 - preprocessing.visual.pipeline - INFO - Participant 376: Processed Tensor Formed -> Shape: [409, 150, 393], Type: standard
+Participant 376
+Original Shape: (30772, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [409, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:33:52,285 - preprocessing.visual.pipeline - INFO - Participant 379: Processed Tensor Formed -> Shape: [399, 150, 393], Type: standard
+Participant 379
+Original Shape: (30065, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [399, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:34:22,719 - preprocessing.visual.pipeline - INFO - Participant 380: Processed Tensor Formed -> Shape: [785, 150, 393], Type: standard
+Participant 380
+Original Shape: (58989, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [785, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:34:35,719 - preprocessing.visual.pipeline - INFO - Participant 383: Processed Tensor Formed -> Shape: [546, 150, 393], Type: standard
+Participant 383
+Original Shape: (41074, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [546, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:34:40,906 - preprocessing.visual.pipeline - INFO - Participant 385: Processed Tensor Formed -> Shape: [213, 150, 393], Type: standard
+Participant 385
+Original Shape: (16091, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [213, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:34:50,779 - preprocessing.visual.pipeline - INFO - Participant 386: Processed Tensor Formed -> Shape: [414, 150, 393], Type: standard
+Participant 386
+Original Shape: (31185, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [414, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:34:57,315 - preprocessing.visual.pipeline - INFO - Participant 391: Processed Tensor Formed -> Shape: [271, 150, 393], Type: standard
+Participant 391
+Original Shape: (20405, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [271, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:03,099 - preprocessing.visual.pipeline - INFO - Participant 392: Processed Tensor Formed -> Shape: [261, 150, 393], Type: standard
+Participant 392
+Original Shape: (19671, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [261, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:08,825 - preprocessing.visual.pipeline - INFO - Participant 393: Processed Tensor Formed -> Shape: [251, 150, 393], Type: standard
+Participant 393
+Original Shape: (18904, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [251, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:18,501 - preprocessing.visual.pipeline - INFO - Participant 397: Processed Tensor Formed -> Shape: [380, 150, 393], Type: standard
+Participant 397
+Original Shape: (28599, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [380, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:27,892 - preprocessing.visual.pipeline - INFO - Participant 400: Processed Tensor Formed -> Shape: [373, 150, 393], Type: standard
+Participant 400
+Original Shape: (28104, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [373, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:36,691 - preprocessing.visual.pipeline - INFO - Participant 401: Processed Tensor Formed -> Shape: [372, 150, 393], Type: standard
+Participant 401
+Original Shape: (28027, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [372, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:44,708 - preprocessing.visual.pipeline - INFO - Participant 402: Processed Tensor Formed -> Shape: [332, 150, 393], Type: standard
+Participant 402
+Original Shape: (24999, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [332, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:35:54,728 - preprocessing.visual.pipeline - INFO - Participant 409: Processed Tensor Formed -> Shape: [411, 150, 393], Type: standard
+Participant 409
+Original Shape: (30974, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [411, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:03,249 - preprocessing.visual.pipeline - INFO - Participant 412: Processed Tensor Formed -> Shape: [341, 150, 393], Type: standard
+Participant 412
+Original Shape: (25709, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [341, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:12,377 - preprocessing.visual.pipeline - INFO - Participant 414: Processed Tensor Formed -> Shape: [392, 150, 393], Type: standard
+Participant 414
+Original Shape: (29532, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [392, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:20,933 - preprocessing.visual.pipeline - INFO - Participant 415: Processed Tensor Formed -> Shape: [311, 150, 393], Type: standard
+Participant 415
+Original Shape: (23423, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [311, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:29,228 - preprocessing.visual.pipeline - INFO - Participant 416: Processed Tensor Formed -> Shape: [345, 150, 393], Type: standard
+Participant 416
+Original Shape: (25977, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [345, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:38,320 - preprocessing.visual.pipeline - INFO - Participant 419: Processed Tensor Formed -> Shape: [361, 150, 393], Type: standard
+Participant 419
+Original Shape: (27189, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [361, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:36:49,299 - preprocessing.visual.pipeline - INFO - Participant 423: Processed Tensor Formed -> Shape: [397, 150, 393], Type: standard
+Participant 423
+Original Shape: (29878, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [397, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:00,859 - preprocessing.visual.pipeline - INFO - Participant 425: Processed Tensor Formed -> Shape: [460, 150, 393], Type: standard
+Participant 425
+Original Shape: (34644, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [460, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:09,206 - preprocessing.visual.pipeline - INFO - Participant 426: Processed Tensor Formed -> Shape: [341, 150, 393], Type: standard
+Participant 426
+Original Shape: (25704, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [341, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:18,400 - preprocessing.visual.pipeline - INFO - Participant 427: Processed Tensor Formed -> Shape: [347, 150, 393], Type: standard
+Participant 427
+Original Shape: (26154, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [347, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:25,277 - preprocessing.visual.pipeline - INFO - Participant 428: Processed Tensor Formed -> Shape: [280, 150, 393], Type: standard
+Participant 428
+Original Shape: (21127, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [280, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:35,628 - preprocessing.visual.pipeline - INFO - Participant 429: Processed Tensor Formed -> Shape: [382, 150, 393], Type: standard
+Participant 429
+Original Shape: (28726, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [382, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:44,255 - preprocessing.visual.pipeline - INFO - Participant 430: Processed Tensor Formed -> Shape: [362, 150, 393], Type: standard
+Participant 430
+Original Shape: (27264, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [362, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:37:51,884 - preprocessing.visual.pipeline - INFO - Participant 433: Processed Tensor Formed -> Shape: [319, 150, 393], Type: standard
+Participant 433
+Original Shape: (24055, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [319, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:04,702 - preprocessing.visual.pipeline - INFO - Participant 434: Processed Tensor Formed -> Shape: [526, 150, 393], Type: standard
+Participant 434
+Original Shape: (39597, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [526, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:13,068 - preprocessing.visual.pipeline - INFO - Participant 437: Processed Tensor Formed -> Shape: [338, 150, 393], Type: standard
+Participant 437
+Original Shape: (25487, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [338, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:22,502 - preprocessing.visual.pipeline - INFO - Participant 441: Processed Tensor Formed -> Shape: [387, 150, 393], Type: standard
+Participant 441
+Original Shape: (29141, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [387, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:29,103 - preprocessing.visual.pipeline - INFO - Participant 443: Processed Tensor Formed -> Shape: [279, 150, 393], Type: standard
+Participant 443
+Original Shape: (21040, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [279, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:42,276 - preprocessing.visual.pipeline - INFO - Participant 444: Processed Tensor Formed -> Shape: [523, 150, 393], Type: standard
+Participant 444
+Original Shape: (39317, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [523, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:48,776 - preprocessing.visual.pipeline - INFO - Participant 445: Processed Tensor Formed -> Shape: [282, 150, 393], Type: standard
+Participant 445
+Original Shape: (21290, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [282, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:38:58,246 - preprocessing.visual.pipeline - INFO - Participant 446: Processed Tensor Formed -> Shape: [398, 150, 393], Type: standard
+Participant 446
+Original Shape: (29955, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [398, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:06,230 - preprocessing.visual.pipeline - INFO - Participant 447: Processed Tensor Formed -> Shape: [327, 150, 393], Type: standard
+Participant 447
+Original Shape: (24610, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [327, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:19,119 - preprocessing.visual.pipeline - INFO - Participant 448: Processed Tensor Formed -> Shape: [484, 150, 393], Type: standard
+Participant 448
+Original Shape: (36390, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [484, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:29,349 - preprocessing.visual.pipeline - INFO - Participant 449: Processed Tensor Formed -> Shape: [410, 150, 393], Type: standard
+Participant 449
+Original Shape: (30893, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [410, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:37,213 - preprocessing.visual.pipeline - INFO - Participant 454: Processed Tensor Formed -> Shape: [320, 150, 393], Type: standard
+Participant 454
+Original Shape: (24126, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [320, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:44,430 - preprocessing.visual.pipeline - INFO - Participant 455: Processed Tensor Formed -> Shape: [299, 150, 393], Type: standard
+Participant 455
+Original Shape: (22511, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [299, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:39:52,889 - preprocessing.visual.pipeline - INFO - Participant 456: Processed Tensor Formed -> Shape: [352, 150, 393], Type: standard
+Participant 456
+Original Shape: (26485, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [352, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:04,110 - preprocessing.visual.pipeline - INFO - Participant 457: Processed Tensor Formed -> Shape: [383, 150, 393], Type: standard
+Participant 457
+Original Shape: (28871, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [383, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:13,756 - preprocessing.visual.pipeline - INFO - Participant 459: Processed Tensor Formed -> Shape: [389, 150, 393], Type: standard
+Participant 459
+Original Shape: (29254, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [389, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:21,922 - preprocessing.visual.pipeline - INFO - Participant 463: Processed Tensor Formed -> Shape: [332, 150, 393], Type: standard
+Participant 463
+Original Shape: (25039, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [332, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:31,888 - preprocessing.visual.pipeline - INFO - Participant 464: Processed Tensor Formed -> Shape: [391, 150, 393], Type: standard
+Participant 464
+Original Shape: (29410, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [391, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:41,366 - preprocessing.visual.pipeline - INFO - Participant 468: Processed Tensor Formed -> Shape: [374, 150, 393], Type: standard
+Participant 468
+Original Shape: (28193, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [374, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:51,166 - preprocessing.visual.pipeline - INFO - Participant 471: Processed Tensor Formed -> Shape: [397, 150, 393], Type: standard
+Participant 471
+Original Shape: (29862, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [397, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:40:55,926 - preprocessing.visual.pipeline - INFO - Participant 473: Processed Tensor Formed -> Shape: [212, 150, 393], Type: standard
+Participant 473
+Original Shape: (16000, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [212, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:06,110 - preprocessing.visual.pipeline - INFO - Participant 474: Processed Tensor Formed -> Shape: [369, 150, 393], Type: standard
+Participant 474
+Original Shape: (27822, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [369, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:11,689 - preprocessing.visual.pipeline - INFO - Participant 475: Processed Tensor Formed -> Shape: [233, 150, 393], Type: standard
+Participant 475
+Original Shape: (17617, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [233, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:20,902 - preprocessing.visual.pipeline - INFO - Participant 478: Processed Tensor Formed -> Shape: [373, 150, 393], Type: standard
+Participant 478
+Original Shape: (28087, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [373, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:29,852 - preprocessing.visual.pipeline - INFO - Participant 479: Processed Tensor Formed -> Shape: [363, 150, 393], Type: standard
+Participant 479
+Original Shape: (27311, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [363, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:35,472 - preprocessing.visual.pipeline - INFO - Participant 485: Processed Tensor Formed -> Shape: [240, 150, 393], Type: standard
+Participant 485
+Original Shape: (18082, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [240, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:42,146 - preprocessing.visual.pipeline - INFO - Participant 486: Processed Tensor Formed -> Shape: [271, 150, 393], Type: standard
+Participant 486
+Original Shape: (20472, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [271, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:41:52,190 - preprocessing.visual.pipeline - INFO - Participant 487: Processed Tensor Formed -> Shape: [408, 150, 393], Type: standard
+Participant 487
+Original Shape: (30710, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [408, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:42:01,344 - preprocessing.visual.pipeline - INFO - Participant 488: Processed Tensor Formed -> Shape: [352, 150, 393], Type: standard
+Participant 488
+Original Shape: (26549, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [352, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:42:10,077 - preprocessing.visual.pipeline - INFO - Participant 491: Processed Tensor Formed -> Shape: [351, 150, 393], Type: standard
+Participant 491
+Original Shape: (26451, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [351, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:42:10,079 - scripts.train_visual - INFO - Loaded 101 participants successfully. Skipped 0 participants.
+2026-08-06 16:42:15,725 - scripts.train_visual - INFO - Participant 409 is retained using the official dataset annotation (label source: official phq8_binary, not threshold-derived).
+2026-08-06 16:47:38,446 - preprocessing.visual.pipeline - INFO - Participant 331: Processed Tensor Formed -> Shape: [339, 150, 393], Type: standard
+Participant 331
+Original Shape: (25524, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [339, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:48:38,160 - preprocessing.visual.pipeline - INFO - Participant 335: Processed Tensor Formed -> Shape: [331, 150, 393], Type: standard
+Participant 335
+Original Shape: (24902, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [331, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:51:09,251 - preprocessing.visual.pipeline - INFO - Participant 346: Processed Tensor Formed -> Shape: [487, 150, 393], Type: standard
+Participant 346
+Original Shape: (36656, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [487, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+Participant ID
+367
+
+Reason
+Invalid feature values
+
+Affected file
+OpenFace CSV
+
+Affected columns
+346
+
+Rows affected
+45
+
+Repair performed
+Converted to np.nan
+
+Skipped or repaired
+Repaired safely
+2026-08-06 16:54:06,437 - preprocessing.visual.preprocessor - INFO - Participant 367: Interpolated 15570 missing/infinite values.
+2026-08-06 16:54:17,074 - preprocessing.visual.pipeline - INFO - Participant 367: Processed Tensor Formed -> Shape: [653, 150, 393], Type: standard
+Participant 367
+Original Shape: (49112, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [653, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:54:47,671 - preprocessing.visual.pipeline - INFO - Participant 377: Processed Tensor Formed -> Shape: [530, 150, 393], Type: standard
+Participant 377
+Original Shape: (39851, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [530, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:55:09,773 - preprocessing.visual.pipeline - INFO - Participant 381: Processed Tensor Formed -> Shape: [434, 150, 393], Type: standard
+Participant 381
+Original Shape: (32681, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [434, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:55:25,636 - preprocessing.visual.pipeline - INFO - Participant 382: Processed Tensor Formed -> Shape: [328, 150, 393], Type: standard
+Participant 382
+Original Shape: (24728, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [328, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:55:33,247 - preprocessing.visual.pipeline - INFO - Participant 388: Processed Tensor Formed -> Shape: [331, 150, 393], Type: standard
+Participant 388
+Original Shape: (24935, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [331, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:56:03,112 - preprocessing.visual.pipeline - INFO - Participant 389: Processed Tensor Formed -> Shape: [380, 150, 393], Type: standard
+Participant 389
+Original Shape: (28597, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [380, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:56:45,305 - preprocessing.visual.pipeline - INFO - Participant 390: Processed Tensor Formed -> Shape: [541, 150, 393], Type: standard
+Participant 390
+Original Shape: (40703, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [541, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:57:09,109 - preprocessing.visual.pipeline - INFO - Participant 395: Processed Tensor Formed -> Shape: [354, 150, 393], Type: standard
+Participant 395
+Original Shape: (26678, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [354, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:57:23,437 - preprocessing.visual.pipeline - INFO - Participant 403: Processed Tensor Formed -> Shape: [344, 150, 393], Type: standard
+Participant 403
+Original Shape: (25878, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [344, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:57:36,246 - preprocessing.visual.pipeline - INFO - Participant 404: Processed Tensor Formed -> Shape: [451, 150, 393], Type: standard
+Participant 404
+Original Shape: (33920, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [451, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:58:03,872 - preprocessing.visual.pipeline - INFO - Participant 406: Processed Tensor Formed -> Shape: [287, 150, 393], Type: standard
+Participant 406
+Original Shape: (21656, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [287, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:58:22,833 - preprocessing.visual.pipeline - INFO - Participant 413: Processed Tensor Formed -> Shape: [397, 150, 393], Type: standard
+Participant 413
+Original Shape: (29906, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [397, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:58:32,213 - preprocessing.visual.pipeline - INFO - Participant 417: Processed Tensor Formed -> Shape: [353, 150, 393], Type: standard
+Participant 417
+Original Shape: (26590, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [353, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:58:42,700 - preprocessing.visual.pipeline - INFO - Participant 418: Processed Tensor Formed -> Shape: [434, 150, 393], Type: standard
+Participant 418
+Original Shape: (32680, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [434, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:58:49,791 - preprocessing.visual.pipeline - INFO - Participant 420: Processed Tensor Formed -> Shape: [281, 150, 393], Type: standard
+Participant 420
+Original Shape: (21192, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [281, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:59:10,487 - preprocessing.visual.pipeline - INFO - Participant 422: Processed Tensor Formed -> Shape: [532, 150, 393], Type: standard
+Participant 422
+Original Shape: (40039, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [532, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:59:20,868 - preprocessing.visual.pipeline - INFO - Participant 436: Processed Tensor Formed -> Shape: [274, 150, 393], Type: standard
+Participant 436
+Original Shape: (20637, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [274, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 16:59:45,489 - preprocessing.visual.pipeline - INFO - Participant 439: Processed Tensor Formed -> Shape: [512, 150, 393], Type: standard
+Participant 439
+Original Shape: (38541, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [512, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:00:22,052 - preprocessing.visual.pipeline - INFO - Participant 440: Processed Tensor Formed -> Shape: [564, 150, 393], Type: standard
+Participant 440
+Original Shape: (42426, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [564, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:00:37,395 - preprocessing.visual.pipeline - INFO - Participant 451: Processed Tensor Formed -> Shape: [474, 150, 393], Type: standard
+Participant 451
+Original Shape: (35654, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [474, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:00:52,525 - preprocessing.visual.pipeline - INFO - Participant 458: Processed Tensor Formed -> Shape: [378, 150, 393], Type: standard
+Participant 458
+Original Shape: (28494, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [378, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:01:03,953 - preprocessing.visual.pipeline - INFO - Participant 472: Processed Tensor Formed -> Shape: [360, 150, 393], Type: standard
+Participant 472
+Original Shape: (27092, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [360, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:01:12,844 - preprocessing.visual.pipeline - INFO - Participant 476: Processed Tensor Formed -> Shape: [242, 150, 393], Type: standard
+Participant 476
+Original Shape: (18265, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [242, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:01:28,872 - preprocessing.visual.pipeline - INFO - Participant 477: Processed Tensor Formed -> Shape: [496, 150, 393], Type: standard
+Participant 477
+Original Shape: (37341, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [496, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:01:48,714 - preprocessing.visual.pipeline - INFO - Participant 482: Processed Tensor Formed -> Shape: [406, 150, 393], Type: standard
+Participant 482
+Original Shape: (30570, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [406, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:02:10,581 - preprocessing.visual.pipeline - INFO - Participant 483: Processed Tensor Formed -> Shape: [629, 150, 393], Type: standard
+Participant 483
+Original Shape: (47313, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [629, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:02:29,222 - preprocessing.visual.pipeline - INFO - Participant 484: Processed Tensor Formed -> Shape: [397, 150, 393], Type: standard
+Participant 484
+Original Shape: (29864, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [397, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:02:37,877 - preprocessing.visual.pipeline - INFO - Participant 489: Processed Tensor Formed -> Shape: [280, 150, 393], Type: standard
+Participant 489
+Original Shape: (21141, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [280, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:02:50,408 - preprocessing.visual.pipeline - INFO - Participant 490: Processed Tensor Formed -> Shape: [275, 150, 393], Type: standard
+Participant 490
+Original Shape: (20740, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [275, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:03:17,624 - preprocessing.visual.pipeline - INFO - Participant 492: Processed Tensor Formed -> Shape: [364, 150, 393], Type: standard
+Participant 492
+Original Shape: (27375, 24)
+NaN count before cleaning: 0
+NaN count after interpolation: 0
+Tensor Shape: [364, 150, 393]
+Tensor dtype: torch.float32
+Finite values check: PASS
+2026-08-06 17:03:17,655 - scripts.train_visual - INFO - Loaded 33 participants successfully. Skipped 0 participants.
+
+-----------------------------------
+Fold Information
+-----------------------------------
+Training Participants:
+[315, 316, 317, 318, 319, 320, 321, 322]
+Validation Participants:
+[331, 335, 346]
+
+Total Train Participants:
+8
+Total Validation Participants:
+3
+Participant Overlap:
+0
+
+Participant Split Overlap Check: PASS
+
+-----------------------------------
+Window Generation Check
+-----------------------------------
+Participant 315
+Windows : 393
+Label : Healthy
+
+Participant 316
+Windows : 350
+Label : Healthy
+
+Participant 317
+Windows : 324
+Label : Healthy
+
+Participant 318
+Windows : 236
+Label : Healthy
+
+Participant 319
+Windows : 273
+Label : Depressed
+
+Participant 320
+Windows : 338
+Label : Depressed
+
+Participant 321
+Windows : 327
+Label : Depressed
+
+Participant 322
+Windows : 417
+Label : Healthy
+
+
+Window Generation Status: PASS
+
+Dynamic Class Weights Computed: tensor([0.7500, 1.2500])
+
+2026-08-06 17:03:20,534 - models.visual.transformer_encoder - INFO - Initialized VisualTransformerEncoder -> (Projection: 393->256, Layers: 4, Heads: 8)
+2026-08-06 17:03:20,534 - models.visual.attention_pooling - INFO - Initialized AttentionPooling (Embed Dim: 256)
+2026-08-06 17:03:20,541 - models.visual.classifier - INFO - Initialized VisualClassifier (Input: 256, Output classes: 2)
+2026-08-06 17:03:20,541 - models.visual.visual_model - INFO - Successfully assembled unified VisualModel topology.
+2026-08-06 17:03:35,441 - training.trainer - INFO - Target Sequence Training Triggered (2 Iterations) -> Mapped on cpu
+2026-08-06 17:03:39,244 - training.trainer - INFO - --- Iteration 0 Gradient Norms ---
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.input_projection.weight: 1.1488
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.input_projection.bias: 0.0689
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_weight: 0.3684
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_bias: 0.0327
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.weight: 0.4275
+2026-08-06 17:03:39,267 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.bias: 0.0543
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.weight: 0.1937
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.bias: 0.0146
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.weight: 0.4597
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.bias: 0.0422
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.weight: 0.0392
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.bias: 0.0460
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.weight: 0.0376
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.bias: 0.0437
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_weight: 0.2742
+2026-08-06 17:03:39,268 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_bias: 0.0214
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.weight: 0.3288
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.bias: 0.0352
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.weight: 0.1821
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.bias: 0.0131
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.weight: 0.4223
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.bias: 0.0367
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.weight: 0.0366
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.bias: 0.0397
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.weight: 0.0363
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.bias: 0.0394
+2026-08-06 17:03:39,269 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_weight: 0.2759
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_bias: 0.0202
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.weight: 0.3303
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.bias: 0.0335
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.weight: 0.2010
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.bias: 0.0138
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.weight: 0.4592
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.bias: 0.0377
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.weight: 0.0395
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.bias: 0.0401
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.weight: 0.0402
+2026-08-06 17:03:39,270 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.bias: 0.0414
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_weight: 0.3291
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_bias: 0.0226
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.weight: 0.4060
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.bias: 0.0389
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.weight: 0.2625
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.bias: 0.0173
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.weight: 0.5866
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.bias: 0.0469
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.weight: 0.0493
+2026-08-06 17:03:39,271 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.bias: 0.0481
+2026-08-06 17:03:39,272 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.weight: 0.0528
+2026-08-06 17:03:39,272 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.bias: 0.0524
+2026-08-06 17:03:39,272 - training.trainer - INFO - pooling.attention_weights.weight: 0.0483
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.0.weight: 1.3999
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.0.bias: 0.0907
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.3.weight: 0.8553
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.3.bias: 0.1675
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.6.weight: 0.5234
+2026-08-06 17:03:39,272 - training.trainer - INFO - classifier.classifier.6.bias: 0.2718
+2026-08-06 17:03:39,272 - training.trainer - INFO - Total Gradient Norm: 2.5560
+2026-08-06 17:03:43,745 - training.trainer - INFO - --- Iteration 1 Gradient Norms ---
+2026-08-06 17:03:43,745 - training.trainer - INFO - encoder.input_projection.weight: 0.7943
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.input_projection.bias: 0.0464
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_weight: 0.2472
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_bias: 0.0217
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.weight: 0.2790
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.bias: 0.0362
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.weight: 0.1341
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.bias: 0.0097
+2026-08-06 17:03:43,746 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.weight: 0.3170
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.bias: 0.0279
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.weight: 0.0246
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.bias: 0.0301
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.weight: 0.0241
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.bias: 0.0289
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_weight: 0.1841
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_bias: 0.0140
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.weight: 0.2112
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.bias: 0.0228
+2026-08-06 17:03:43,747 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.weight: 0.1220
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.bias: 0.0085
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.weight: 0.2823
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.bias: 0.0239
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.weight: 0.0220
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.bias: 0.0254
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.weight: 0.0226
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.bias: 0.0257
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_weight: 0.1816
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_bias: 0.0133
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.weight: 0.2076
+2026-08-06 17:03:43,748 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.bias: 0.0212
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.weight: 0.1285
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.bias: 0.0086
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.weight: 0.2921
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.bias: 0.0237
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.weight: 0.0230
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.bias: 0.0250
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.weight: 0.0240
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.bias: 0.0263
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_weight: 0.2212
+2026-08-06 17:03:43,749 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_bias: 0.0155
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.weight: 0.2514
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.bias: 0.0245
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.weight: 0.1633
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.bias: 0.0107
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.weight: 0.3632
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.bias: 0.0291
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.weight: 0.0276
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.bias: 0.0300
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.weight: 0.0300
+2026-08-06 17:03:43,750 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.bias: 0.0328
+2026-08-06 17:03:43,751 - training.trainer - INFO - pooling.attention_weights.weight: 0.0161
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.0.weight: 0.8575
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.0.bias: 0.0572
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.3.weight: 0.5876
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.3.bias: 0.1289
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.6.weight: 0.3602
+2026-08-06 17:03:43,751 - training.trainer - INFO - classifier.classifier.6.bias: 0.1950
+2026-08-06 17:03:43,751 - training.trainer - INFO - Total Gradient Norm: 1.6730
+2026-08-06 17:03:45,233 - training.trainer - INFO - --- Iteration 2 Gradient Norms ---
+2026-08-06 17:03:45,233 - training.trainer - INFO - encoder.input_projection.weight: 0.8345
+2026-08-06 17:03:45,233 - training.trainer - INFO - encoder.input_projection.bias: 0.0427
+2026-08-06 17:03:45,233 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_weight: 0.2373
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_bias: 0.0190
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.weight: 0.2856
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.bias: 0.0337
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.weight: 0.1388
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.bias: 0.0105
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.weight: 0.3282
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.bias: 0.0290
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.weight: 0.0267
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.bias: 0.0316
+2026-08-06 17:03:45,234 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.weight: 0.0257
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.bias: 0.0300
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_weight: 0.1807
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_bias: 0.0138
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.weight: 0.2173
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.bias: 0.0245
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.weight: 0.1278
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.bias: 0.0096
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.weight: 0.2952
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.bias: 0.0254
+2026-08-06 17:03:45,235 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.weight: 0.0239
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.bias: 0.0273
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.weight: 0.0244
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.bias: 0.0274
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_weight: 0.1767
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_bias: 0.0131
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.weight: 0.2180
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.bias: 0.0234
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.weight: 0.1362
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.bias: 0.0098
+2026-08-06 17:03:45,236 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.weight: 0.3148
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.bias: 0.0263
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.weight: 0.0243
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.bias: 0.0277
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.weight: 0.0257
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.bias: 0.0291
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_weight: 0.2122
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_bias: 0.0151
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.weight: 0.2630
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.bias: 0.0270
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.weight: 0.1709
+2026-08-06 17:03:45,237 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.bias: 0.0118
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.weight: 0.3979
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.bias: 0.0326
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.weight: 0.0283
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.bias: 0.0331
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.weight: 0.0312
+2026-08-06 17:03:45,238 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.bias: 0.0368
+2026-08-06 17:03:45,238 - training.trainer - INFO - pooling.attention_weights.weight: 0.0284
+2026-08-06 17:03:45,238 - training.trainer - INFO - classifier.classifier.0.weight: 0.9075
+2026-08-06 17:03:45,238 - training.trainer - INFO - classifier.classifier.0.bias: 0.0656
+2026-08-06 17:03:45,238 - training.trainer - INFO - classifier.classifier.3.weight: 0.6867
+2026-08-06 17:03:45,238 - training.trainer - INFO - classifier.classifier.3.bias: 0.1778
+2026-08-06 17:03:45,238 - training.trainer - INFO - classifier.classifier.6.weight: 0.7705
+2026-08-06 17:03:45,239 - training.trainer - INFO - classifier.classifier.6.bias: 0.4587
+2026-08-06 17:03:45,239 - training.trainer - INFO - Total Gradient Norm: 1.9497
+2026-08-06 17:03:46,755 - training.trainer - INFO - --- Iteration 3 Gradient Norms ---
+2026-08-06 17:03:46,755 - training.trainer - INFO - encoder.input_projection.weight: 0.7675
+2026-08-06 17:03:46,755 - training.trainer - INFO - encoder.input_projection.bias: 0.0184
+2026-08-06 17:03:46,755 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_weight: 0.1809
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_bias: 0.0086
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.weight: 0.2159
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.bias: 0.0149
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.weight: 0.1102
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.bias: 0.0063
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.weight: 0.2267
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.bias: 0.0155
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.weight: 0.0196
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.bias: 0.0169
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.weight: 0.0184
+2026-08-06 17:03:46,756 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.bias: 0.0161
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_weight: 0.1360
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_bias: 0.0075
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.weight: 0.1624
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.bias: 0.0136
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.weight: 0.0982
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.bias: 0.0056
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.weight: 0.2054
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.bias: 0.0142
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.weight: 0.0171
+2026-08-06 17:03:46,757 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.bias: 0.0153
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.weight: 0.0167
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.bias: 0.0153
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_weight: 0.1313
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_bias: 0.0073
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.weight: 0.1591
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.bias: 0.0135
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.weight: 0.1031
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.bias: 0.0061
+2026-08-06 17:03:46,758 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.weight: 0.2172
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.bias: 0.0154
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.weight: 0.0174
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.bias: 0.0161
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.weight: 0.0179
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.bias: 0.0170
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_weight: 0.1574
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_bias: 0.0087
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.weight: 0.1899
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.bias: 0.0163
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.weight: 0.1336
+2026-08-06 17:03:46,759 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.bias: 0.0081
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.weight: 0.2775
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.bias: 0.0201
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.weight: 0.0210
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.bias: 0.0202
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.weight: 0.0230
+2026-08-06 17:03:46,760 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.bias: 0.0224
+2026-08-06 17:03:46,760 - training.trainer - INFO - pooling.attention_weights.weight: 0.0416
+2026-08-06 17:03:46,760 - training.trainer - INFO - classifier.classifier.0.weight: 0.6629
+2026-08-06 17:03:46,760 - training.trainer - INFO - classifier.classifier.0.bias: 0.0394
+2026-08-06 17:03:46,760 - training.trainer - INFO - classifier.classifier.3.weight: 0.4851
+2026-08-06 17:03:46,760 - training.trainer - INFO - classifier.classifier.3.bias: 0.0682
+2026-08-06 17:03:46,760 - training.trainer - INFO - classifier.classifier.6.weight: 0.3684
+2026-08-06 17:03:46,761 - training.trainer - INFO - classifier.classifier.6.bias: 0.0166
+2026-08-06 17:03:46,761 - training.trainer - INFO - Total Gradient Norm: 1.3826
+2026-08-06 17:03:47,922 - training.trainer - INFO - --- Iteration 4 Gradient Norms ---
+2026-08-06 17:03:47,922 - training.trainer - INFO - encoder.input_projection.weight: 0.7695
+2026-08-06 17:03:47,922 - training.trainer - INFO - encoder.input_projection.bias: 0.0270
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_weight: 0.1944
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.in_proj_bias: 0.0124
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.weight: 0.2265
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.self_attn.out_proj.bias: 0.0208
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.weight: 0.1154
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear1.bias: 0.0080
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.weight: 0.2547
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.linear2.bias: 0.0207
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.weight: 0.0231
+2026-08-06 17:03:47,923 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm1.bias: 0.0220
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.weight: 0.0218
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.0.norm2.bias: 0.0216
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_weight: 0.1544
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.in_proj_bias: 0.0102
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.weight: 0.1776
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.self_attn.out_proj.bias: 0.0170
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.weight: 0.1086
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear1.bias: 0.0074
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.weight: 0.2359
+2026-08-06 17:03:47,924 - training.trainer - INFO - encoder.transformer_encoder.layers.1.linear2.bias: 0.0185
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.weight: 0.0204
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm1.bias: 0.0196
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.weight: 0.0200
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.1.norm2.bias: 0.0201
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_weight: 0.1553
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.in_proj_bias: 0.0100
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.weight: 0.1811
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.self_attn.out_proj.bias: 0.0167
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.weight: 0.1209
+2026-08-06 17:03:47,925 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear1.bias: 0.0080
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.weight: 0.2562
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.linear2.bias: 0.0195
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.weight: 0.0206
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm1.bias: 0.0205
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.weight: 0.0208
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.2.norm2.bias: 0.0216
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_weight: 0.1925
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.in_proj_bias: 0.0119
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.weight: 0.2249
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.self_attn.out_proj.bias: 0.0201
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.weight: 0.1578
+2026-08-06 17:03:47,926 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear1.bias: 0.0102
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.weight: 0.3294
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.linear2.bias: 0.0248
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.weight: 0.0241
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm1.bias: 0.0252
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.weight: 0.0270
+2026-08-06 17:03:47,927 - training.trainer - INFO - encoder.transformer_encoder.layers.3.norm2.bias: 0.0276
+2026-08-06 17:03:47,927 - training.trainer - INFO - pooling.attention_weights.weight: 0.0094
+2026-08-06 17:03:47,927 - training.trainer - INFO - classifier.classifier.0.weight: 0.7652
+2026-08-06 17:03:47,927 - training.trainer - INFO - classifier.classifier.0.bias: 0.0457
+2026-08-06 17:03:47,927 - training.trainer - INFO - classifier.classifier.3.weight: 0.7058
+2026-08-06 17:03:47,927 - training.trainer - INFO - classifier.classifier.3.bias: 0.0974
+2026-08-06 17:03:47,927 - training.trainer - INFO - classifier.classifier.6.weight: 0.5654
+2026-08-06 17:03:47,928 - training.trainer - INFO - classifier.classifier.6.bias: 0.0419
+2026-08-06 17:03:47,928 - training.trainer - INFO - Total Gradient Norm: 1.6340
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/rit/Desktop/Capstone_Project/scripts/test_visual_cv_pipeline.py", line 183, in <module>
+    main()
+    ~~~~^^
+  File "/home/rit/Desktop/Capstone_Project/scripts/test_visual_cv_pipeline.py", line 109, in main
+    trainer.fit(train_loader, val_loader, epochs=epochs, metric_for_best="f1")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rit/Desktop/Capstone_Project/training/trainer.py", line 138, in fit
+    train_metrics = self.train(train_loader)
+  File "/home/rit/Desktop/Capstone_Project/training/trainer.py", line 125, in train
+    return self._run_epoch(dataloader, is_train=True)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rit/Desktop/Capstone_Project/training/trainer.py", line 100, in _run_epoch
+    window_metrics = compute_metrics(all_targets, all_preds, avg_loss)
+  File "/home/rit/Desktop/Capstone_Project/training/metrics.py", line 20, in compute_metrics
+    "accuracy": float(accuracy_score(y_true, y_pred)),
+                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/sklearn/utils/_param_validation.py", line 216, in wrapper
+    return func(*args, **kwargs)
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/sklearn/metrics/_classification.py", line 227, in accuracy_score
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+                             ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/sklearn/metrics/_classification.py", line 98, in _check_targets
+    check_consistent_length(y_true, y_pred)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/sklearn/utils/validation.py", line 475, in check_consistent_length
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Found input variables with inconsistent numbers of samples: [0, 2658]
