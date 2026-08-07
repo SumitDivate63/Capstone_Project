@@ -9,7 +9,12 @@ def save_checkpoint(
     model: nn.Module, 
     epoch: int, 
     best_f1: float, 
-    is_best: bool, 
+    is_best: bool,
+    optimizer: torch.optim.Optimizer = None,
+    scheduler_state: dict = None,
+    best_accuracy: float = -1.0,
+    fold: int = 1,
+    seed: int = 42,
     save_dir: str = "outputs/checkpoints/visual/"
 ) -> None:
     """
@@ -19,10 +24,17 @@ def save_checkpoint(
     path.mkdir(parents=True, exist_ok=True)
     
     state = {
+        'fold': fold,
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
-        'best_f1': best_f1
+        'best_f1': best_f1,
+        'best_accuracy': best_accuracy,
+        'seed': seed
     }
+    
+    # Store optimizer state dict if provided
+    state['optimizer_state_dict'] = optimizer.state_dict() if optimizer else None
+    state['scheduler_state_dict'] = scheduler_state
     
     last_path = path / "last_model.pt"
     torch.save(state, str(last_path))

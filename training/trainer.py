@@ -25,7 +25,9 @@ class VisualTrainer:
         else:
              self.criterion = nn.CrossEntropyLoss().to(self.device)
         self.optimizer = create_optimizer(self.model, learning_rate=1e-4, weight_decay=1e-3)
+        self.scheduler = None # Not currently used by default, but supported for checkpointing
         self.best_metric = -1.0
+        self.best_accuracy = -1.0
         self.global_step = 0
         
     def _run_epoch(self, dataloader: DataLoader, is_train: bool, return_debug: bool = False) -> Dict[str, Any]:
@@ -134,13 +136,16 @@ class VisualTrainer:
         """Freezes tensors and asserts generalization constraints."""
         return self._run_epoch(dataloader, is_train=False, return_debug=return_debug)
 
-    def fit(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int, metric_for_best: str = 'f1'):
+    def fit(self, train_loader: DataLoader, val_loader: DataLoader, epochs: int, metric_for_best: str = 'f1', fold: int = 1, seed: int = 42, start_epoch: int = 1):
         """
         Runs consecutive epochs natively triggering Checkpointing triggers autonomously.
         """
         logger.info(f"Target Sequence Training Triggered ({epochs} Iterations) -> Mapped on {self.device}")
         
-        for epoch in range(1, epochs + 1):
+        # Determine checkpoint directory for this fold
+        fold_dir = f"outputs/checkpoints/visual/fold{fold}"
+        
+        for epoch in range(start_epoch, epochs + 1):
             train_metrics = self.train(train_loader)
             val_metrics = self.validate(val_loader)
             
@@ -173,7 +178,23 @@ class VisualTrainer:
             if is_best:
                 self.best_metric = current_metric
                 
-            save_checkpoint(self.model, epoch, self.best_metric, is_best)
+            if val_metrics['accuracy'] > self.best_accuracy:
+                self.best_accuracy = val_metrics['accuracy']
+                
+            scheduler_state = self.scheduler.state_dict() if self.scheduler else None
+                
+            save_checkpoint(
+                model=self.model,
+                epoch=epoch,
+                best_f1=self.best_metric,
+                is_best=is_best,
+                optimizer=self.optimizer,
+                scheduler_state=scheduler_state,
+                best_accuracy=self.best_accuracy,
+                fold=fold,
+                seed=seed,
+                save_dir=fold_dir
+            )
             
             if is_best:
                 logger.info(f"Epoch {epoch}: Structural weights persisted. Checkpoint Saved -> (Anchor: {self.best_metric:.4f})")

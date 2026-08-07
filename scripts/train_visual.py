@@ -133,12 +133,31 @@ def run_kfold_cv():
     
     fold_metrics = []
     
-    out_dir = Path("outputs")
-    out_dir.mkdir(exist_ok=True)
+    out_dir = Path("outputs/checkpoints/visual")
+    out_dir.mkdir(parents=True, exist_ok=True)
     folds_log = out_dir / "fold_assignments.json"
     fold_assignments = {}
 
+    cv_results_file = out_dir / "cross_validation_results.json"
+    if cv_results_file.exists():
+        logger.info("Cross-validation already completed. Remove cross_validation_results.json to restart.")
+        return
+
+    # Check for completed folds
+    for f in range(1, k_folds + 1):
+        metric_file = out_dir / f"fold{f}" / f"fold_{f}_metrics.json"
+        if metric_file.exists():
+            with open(metric_file, "r") as mf:
+                fold_metrics.append(json.load(mf))
+                
+    if len(fold_metrics) > 0:
+        logger.info(f"Detected {len(fold_metrics)} completed folds. Resuming remaining folds...")
+
     for fold, (train_idx, val_idx) in enumerate(skf.split(pids, labels), 1):
+        if fold <= len(fold_metrics):
+            logger.info(f"Skipping Fold {fold}/{k_folds} - already completed.")
+            continue
+            
         logger.info(f"\n{'='*40}\nStarting Fold {fold}/{k_folds}\n{'='*40}")
         
         train_pids = [pids[i] for i in train_idx]
@@ -194,12 +213,61 @@ def run_kfold_cv():
         model = VisualModel()
         trainer = VisualTrainer(model, device="cuda" if torch.cuda.is_available() else "cpu", class_weights=class_weights_tensor)
         
-        trainer.fit(train_loader, dev_loader, epochs=10, metric_for_best="f1")
+        # Resume epoch if last_model.pt exists for this fold
+        fold_dir = out_dir / f"fold{fold}"
+        fold_dir.mkdir(parents=True, exist_ok=True)
+        checkpoint_path = fold_dir / "last_model.pt"
+        
+        start_epoch = 1
+        max_epochs = 10
+        if checkpoint_path.exists():
+            logger.info(f"Resuming Fold {fold} from checkpoint...")
+            checkpoint = torch.load(checkpoint_path)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            if 'optimizer_state_dict' in checkpoint and checkpoint['optimizer_state_dict']:
+                trainer.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            if 'scheduler_state_dict' in checkpoint and checkpoint['scheduler_state_dict'] and trainer.scheduler:
+                trainer.scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+            
+            trainer.best_metric = checkpoint.get('best_f1', -1.0)
+            trainer.best_accuracy = checkpoint.get('best_accuracy', -1.0)
+            start_epoch = checkpoint.get('epoch', 0) + 1
+            
+        if start_epoch <= max_epochs:
+            trainer.fit(train_loader, dev_loader, epochs=max_epochs, metric_for_best="f1", fold=fold, seed=42, start_epoch=start_epoch)
+        else:
+            logger.info(f"Fold {fold} training already finished {max_epochs} epochs.")
         
         # Last validation eval for logging
         logger.info(f"Running final validation for fold {fold}...")
         val_metrics = trainer.validate(dev_loader)
-        fold_metrics.append(val_metrics)
+        
+        metrics_to_save = {
+            "accuracy": float(val_metrics['accuracy']),
+            "precision": float(val_metrics['precision']),
+            "recall": float(val_metrics['recall']),
+            "macro_f1": float(val_metrics['f1']),
+            "per_class_f1": val_metrics.get('per_class_f1', []), # assuming missing if not returned
+            "confusion_matrix": val_metrics.get('cm_list', val_metrics.get('cm', [])), # may need to map to list
+            "epochs": max_epochs,
+            "best_epoch": -1 # we might not know exactly unless we track it
+        }
+        
+        # Convert np types to pure python types
+        if 'cm' in val_metrics:
+            metrics_to_save['confusion_matrix'] = np.array(val_metrics['cm']).tolist()
+            
+        # load best model to get true final performance
+        best_model_path = fold_dir / "best_model.pt"
+        if best_model_path.exists():
+            best_ckpt = torch.load(best_model_path)
+            metrics_to_save['best_epoch'] = best_ckpt.get('epoch', -1)
+            
+        fold_metrics.append(metrics_to_save)
+        
+        metric_file = fold_dir / f"fold_{fold}_metrics.json"
+        with open(metric_file, "w") as mf:
+            json.dump(metrics_to_save, mf, indent=4)
         
     # Write assignments
     with open(folds_log, "w") as f:
@@ -209,9 +277,35 @@ def run_kfold_cv():
 
     # Summary Statistics
     accs = [m['accuracy'] for m in fold_metrics]
-    f1s = [m['f1'] for m in fold_metrics]
+    f1s = [m['macro_f1'] for m in fold_metrics]
     precs = [m['precision'] for m in fold_metrics]
     recs = [m['recall'] for m in fold_metrics]
+    
+    cv_summary = {
+        "mean_accuracy": float(np.mean(accs)),
+        "std_accuracy": float(np.std(accs)),
+        "mean_macro_f1": float(np.mean(f1s)),
+        "std_macro_f1": float(np.std(f1s)),
+        "mean_precision": float(np.mean(precs)),
+        "std_precision": float(np.std(precs)),
+        "mean_recall": float(np.mean(recs)),
+        "std_recall": float(np.std(recs)),
+        "per_fold_metrics": fold_metrics
+    }
+    
+    # Try to aggregate confusion matrix
+    try:
+        agg_cm = np.zeros((2, 2))
+        for m in fold_metrics:
+            agg_cm += np.array(m['confusion_matrix'])
+        cv_summary["aggregate_confusion_matrix"] = agg_cm.tolist()
+    except Exception:
+        pass
+        
+    with open(cv_results_file, "w") as f:
+        json.dump(cv_summary, f, indent=4)
+        
+    logger.info(f"Cross-validation results saved to {cv_results_file}")
     
     logger.info("\n==================================")
     logger.info("FINAL K-FOLD CROSS-VALIDATION RESULTS")
