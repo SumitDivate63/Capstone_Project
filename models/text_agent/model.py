@@ -1,12 +1,7 @@
-"""Text Agent model."""
-from ..base.base_model import BaseModel
+"""Text Agent model — re-exports the full TextModel implementation."""
+from models.text_agent.text_model import TextModel
 
-class TextAgentModel(BaseModel):
-    """
-    Text Agent architecture.
-    """
-    def __init__(self, config):
-        super().__init__(config)
-        
-    def forward(self, x):
-        pass
+# Backward-compatible alias
+TextAgentModel = TextModel
+
+__all__ = ["TextModel", "TextAgentModel"]
