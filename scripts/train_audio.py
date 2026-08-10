@@ -106,59 +106,9 @@ class ProcessedAudioDataset(Dataset):
 
 
 # ──────────────────────────────────────────────────────────────
-# Participant extraction
+# Participant extraction has been optimized. 
+# Data is now extracted iteratively, per-fold to prevent memory exhaustion.
 # ──────────────────────────────────────────────────────────────
-def extract_audio_participants(
-    dataset: DAICDataset,
-    pipeline: AudioPreprocessingPipeline,
-    is_train: bool,
-    alog: logging.Logger,
-) -> List[Dict[str, Any]]:
-    """
-    Processes all participants in dataset through the audio pipeline.
-    If is_train=True, first fits the pipeline normalizer.
-    Returns list of {pid, label, windows}.
-    """
-    if is_train:
-        alog.info("Fitting audio normalizer on training participants...")
-        train_audios = []
-        for i in range(len(dataset)):
-            try:
-                train_audios.append(dataset[i]["audio"])
-            except Exception as e:
-                alog.warning(f"  Skipping participant at index {i} during fit: {e}")
-        pipeline.fit(train_audios)
-        alog.info("Audio normalizer fitted.")
-
-    pt_data   = []
-    skipped   = []
-
-    for i in range(len(dataset)):
-        try:
-            pt     = dataset[i]
-            pid    = pt["participant_id"]
-            label  = pt["labels"]["phq8_binary"]
-            tensor = pipeline.transform(pid, pt["audio"])
-            w_count = tensor.size(0)
-
-            if w_count == 0:
-                alog.warning(f"  Participant {pid}: 0 windows generated — skipping.")
-                skipped.append(pid)
-                continue
-
-            windows = [tensor[w] for w in range(w_count)]
-            pt_data.append({"pid": pid, "label": label, "windows": windows})
-
-        except Exception as e:
-            try:
-                pid = dataset.metadata_df.iloc[i]["participant_id"]
-            except Exception:
-                pid = f"index_{i}"
-            alog.warning(f"  Participant {pid}: preprocessing failed — {e}")
-            skipped.append(pid)
-
-    alog.info(f"Audio extraction complete: {len(pt_data)} loaded, {len(skipped)} skipped.")
-    return pt_data
 
 
 # ──────────────────────────────────────────────────────────────
@@ -244,27 +194,46 @@ def run_audio_kfold_cv():
     alog.info(f"Num workers  : {NUM_WORKERS}")
     alog.info(f"Log file     : {LOG_FILE}")
 
+    def get_mem_mb():
+        try:
+            import psutil
+            process = psutil.Process(os.getpid())
+            return process.memory_info().rss / (1024 * 1024)
+        except Exception:
+            try:
+                import resource
+                return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+            except Exception:
+                return 0.0
+
+    alog.info(f"[Memory] Initial script start: {get_mem_mb():.0f} MB")
+
     # ── Load data ──────────────────────────────────────────────
-    alog.info("Loading DAIC-WOZ datasets (audio only)...")
-    train_dataset = DAICDataset(split="train", load_visual=False, load_audio=True, load_text=False)
-    dev_dataset   = DAICDataset(split="dev",   load_visual=False, load_audio=True, load_text=False)
+    alog.info("Loading DAIC-WOZ datasets (metadata only)...")
+    train_dataset = DAICDataset(split="train", load_visual=False, load_audio=False, load_text=False)
+    dev_dataset   = DAICDataset(split="dev",   load_visual=False, load_audio=False, load_text=False)
 
-    config   = AudioPreprocessingConfig(window_size=WINDOW_SIZE, stride=STRIDE)
-    pipeline = AudioPreprocessingPipeline(config)
+    all_pts = []
+    # Build list of { "pid": pid, "label": label }
+    for dset in [train_dataset, dev_dataset]:
+        for i in range(len(dset)):
+            try:
+                pt = dset[i]
+                all_pts.append({"pid": pt["participant_id"], "label": pt["labels"]["phq8_binary"]})
+            except Exception as e:
+                alog.warning(f"Error loading participant metadata: {e}")
 
-    alog.info("Extracting and preprocessing audio participants (train split)...")
-    train_pts = extract_audio_participants(train_dataset, pipeline, is_train=True,  alog=alog)
-    alog.info("Extracting and preprocessing audio participants (dev split)...")
-    dev_pts   = extract_audio_participants(dev_dataset,   pipeline, is_train=False, alog=alog)
-
-    all_pts = train_pts + dev_pts
     alog.info(f"Total participants available for CV: {len(all_pts)}")
+    input_dim = None
 
-    # ── Determine input feature dimension ──────────────────────
-    # F_dim is dynamic — read from the first participant's window tensor
-    sample_win = all_pts[0]["windows"][0]
-    input_dim  = sample_win.shape[-1]
-    alog.info(f"Detected audio feature dimension: {input_dim}")
+    # Needs a dataset mapping to load actual audio data on demand
+    audio_dataset = DAICDataset(split="all", load_visual=False, load_audio=True, load_text=False)
+    pid_to_idx = {}
+    for i, row in audio_dataset.metadata_df.iterrows():
+        try:
+            pid_to_idx[int(row["participant_id"])] = i
+        except Exception:
+            pass
 
     # ── Get fold assignments ───────────────────────────────────
     assignments, fold_list = get_or_create_fold_assignments(all_pts, alog)
@@ -302,24 +271,69 @@ def run_audio_kfold_cv():
         alog.info(f"Train participants ({len(train_pids)}): {train_pids}")
         alog.info(f"Val   participants ({len(val_pids)}):   {val_pids}")
 
-        # ── Flatten to window-level data ───────────────────────
+        alog.info(f"[Memory] Before fold preprocessing: {get_mem_mb():.0f} MB")
+
+        config   = AudioPreprocessingConfig(window_size=WINDOW_SIZE, stride=STRIDE)
+        pipeline = AudioPreprocessingPipeline(config)
+
+        # ── Fit Scaler (Training Participants Only) ────────────
+        train_audios = []
+        for pid in train_pids:
+            if pid in pid_to_idx:
+                try:
+                    idx = pid_to_idx[pid]
+                    train_audios.append(audio_dataset[idx]["audio"])
+                except Exception as e:
+                    alog.warning(f"Failed to load audio for PID {pid} during fit: {e}")
+                    
+        alog.info(f"Fitting audio scaler on Fold {fold} training participants ({len(train_audios)})...")
+        pipeline.fit(train_audios)
+        del train_audios
+        import gc
+        gc.collect()
+        alog.info(f"[Memory] After scaler fitting: {get_mem_mb():.0f} MB")
+
+        # ── Extract Train Windows ──────────────────────────────
         train_data = []
-        val_data   = []
         part_0_count = part_1_count = 0
 
-        for idx in train_idx:
-            pt = all_pts[idx]
-            if pt["label"] == 0:
-                part_0_count += 1
-            else:
-                part_1_count += 1
-            for w in pt["windows"]:
-                train_data.append((w, pt["label"], pt["pid"]))
+        for pid in train_pids:
+            if pid in pid_to_idx:
+                try:
+                    idx = pid_to_idx[pid]
+                    pt = audio_dataset[idx]
+                    label = pt["labels"]["phq8_binary"]
+                    if label == 0:
+                        part_0_count += 1
+                    else:
+                        part_1_count += 1
+                    
+                    tensor = pipeline.transform(pid, pt["audio"])
+                    if input_dim is None:
+                        input_dim = tensor.shape[-1]
+                        alog.info(f"Detected audio feature dimension: {input_dim}")
+                        
+                    for w in range(tensor.size(0)):
+                        train_data.append((tensor[w], label, pid))
+                except Exception as e:
+                    alog.warning(f"Failed to generate train windows for PID {pid}: {e}")
 
-        for idx in val_idx:
-            pt = all_pts[idx]
-            for w in pt["windows"]:
-                val_data.append((w, pt["label"], pt["pid"]))
+        # ── Extract Validation Windows ─────────────────────────
+        val_data = []
+        for pid in val_pids:
+            if pid in pid_to_idx:
+                try:
+                    idx = pid_to_idx[pid]
+                    pt = audio_dataset[idx]
+                    label = pt["labels"]["phq8_binary"]
+                    
+                    tensor = pipeline.transform(pid, pt["audio"])
+                    for w in range(tensor.size(0)):
+                        val_data.append((tensor[w], label, pid))
+                except Exception as e:
+                    alog.warning(f"Failed to generate val windows for PID {pid}: {e}")
+
+        alog.info(f"[Memory] After window generation: {get_mem_mb():.0f} MB")
 
         # ── Class weights (training participants only) ─────────
         alog.info(f"Fold {fold} class distribution:")
@@ -469,6 +483,20 @@ def run_audio_kfold_cv():
         )
 
         fold_metrics.append(metrics_to_save)
+        
+        # ── Memory Cleanup ─────────────────────────────────────
+        alog.info(f"[Memory] After training: {get_mem_mb():.0f} MB")
+        del train_data
+        del val_data
+        del train_loader
+        del val_loader
+        del trainer
+        del model
+        del pipeline
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        alog.info(f"[Memory] After fold cleanup: {get_mem_mb():.0f} MB")
 
     # ── Cross-validation summary ───────────────────────────────
     accs  = [m["accuracy"]  for m in fold_metrics]

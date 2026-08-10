@@ -125,15 +125,15 @@ class TextTransformerEncoder(nn.Module):
 class TextClassifier(nn.Module):
     """MLP classification head."""
 
-    def __init__(self, input_dim: int = 128, num_classes: int = 2):
+    def __init__(self, input_dim: int = 256, num_classes: int = 2):
         super().__init__()
         self.classifier = nn.Sequential(
-            nn.Linear(input_dim, 64),
+            nn.Linear(input_dim, 128),
             nn.ReLU(),
             nn.Dropout(0.3),
-            nn.Linear(64, num_classes),
+            nn.Linear(128, num_classes),
         )
-        logger.info(f"TextClassifier: {input_dim}→64→{num_classes}")
+        logger.info(f"TextClassifier: {input_dim}->128->{num_classes}")
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.classifier(x)
@@ -147,18 +147,18 @@ class TextModel(nn.Module):
         token_ids/attention_mask → TextTransformerEncoder
         → MaskedAttentionPooling → TextClassifier → (B, 2) logits
 
-    The pooled embedding (B, d_model) is accessible via get_embedding()
+    The pooled 256-D embedding (B, d_model) is accessible via get_embedding()
     for use in later multimodal fusion.
 
     Text is participant-level: one sequence (512 tokens) per participant.
     No window aggregation is needed — each forward pass IS one participant.
     """
 
-    def __init__(self, vocab_size: int = 30000, d_model: int = 128, max_seq_len: int = 512):
+    def __init__(self, vocab_size: int = 30000, d_model: int = 256, max_seq_len: int = 512):
         """
         Args:
             vocab_size:  Must match the vocabulary built by TextPreprocessingPipeline.
-            d_model:     Embedding dimension.
+            d_model:     Embedding dimension (256-D for multimodal fusion alignment).
             max_seq_len: Must match TextPreprocessingConfig.max_sequence_length.
         """
         super().__init__()
@@ -179,7 +179,7 @@ class TextModel(nn.Module):
 
     def get_embedding(self, token_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
         """
-        Returns the pooled d_model-dimensional embedding before the classifier.
+        Returns the pooled d_model (256-D) embedding before the classifier.
         Used for multimodal fusion.
         """
         encoded = self.encoder(token_ids, attention_mask)

@@ -61,7 +61,7 @@ LR            = 1e-4
 WEIGHT_DECAY  = 1e-3
 
 MAX_SEQ_LEN   = 512
-TEXT_D_MODEL  = 128
+TEXT_D_MODEL  = 256
 VOCAB_SIZE    = 30000   # from TextPreprocessingConfig
 
 # ──────────────────────────────────────────────────────────────
@@ -488,15 +488,19 @@ def run_text_kfold_cv():
         # ── Save predictions for fusion ────────────────────────
         fusion_predictions = []
         if "pid_list" in val_metrics and val_metrics["pid_list"]:
+            has_emb = "embeddings" in val_metrics and len(val_metrics["embeddings"]) == len(val_metrics["pid_list"])
             for i, pid in enumerate(val_metrics["pid_list"]):
-                fusion_predictions.append({
+                pred_item = {
                     "participant_id":     int(pid),
                     "true_label":         int(val_metrics["part_targets"][i]),
                     "prediction":         int(val_metrics["part_preds"][i]),
                     "probability_class_0": float(val_metrics["part_probs_c0"][i]),
                     "probability_class_1": float(val_metrics["part_probs_c1"][i]),
                     "fold": fold,
-                })
+                }
+                if has_emb:
+                    pred_item["embedding"] = [float(v) for v in val_metrics["embeddings"][i]]
+                fusion_predictions.append(pred_item)
 
         pred_file = pred_dir / f"fold_{fold}_predictions.json"
         with open(pred_file, "w") as pf:

@@ -101,7 +101,7 @@ class AudioTrainer:
 
         self.optimizer = create_optimizer(self.model, learning_rate=learning_rate, weight_decay=weight_decay)
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            self.optimizer, mode="max", factor=0.5, patience=3, verbose=False
+            self.optimizer, mode="max", factor=0.5, patience=3
         )
 
         self.best_macro_f1 = -1.0

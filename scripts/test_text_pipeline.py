@@ -231,7 +231,7 @@ check("Targets in {0,1}",             all(t in [0, 1] for t in targets_b.tolist(
 print("\n[8–11] Model Forward / Loss / Backward / Gradients")
 from models.text_agent.text_model import TextModel
 
-model     = TextModel(vocab_size=vocab_size, d_model=128, max_seq_len=512)
+model     = TextModel(vocab_size=vocab_size, d_model=256, max_seq_len=512)
 device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model     = model.to(device)
 criterion = torch.nn.CrossEntropyLoss()
@@ -244,6 +244,8 @@ tgt_d  = targets_b.to(device)
 
 optimizer.zero_grad()
 try:
+    emb = model.get_embedding(tok_d, msk_d)
+    check("Embedding shape (B, 256)", emb.shape == (tok_d.size(0), 256), f"{list(emb.shape)}")
     logits = model(tok_d, msk_d)
     check("Forward pass shape (B, 2)", logits.shape == (tok_d.size(0), 2), f"{list(logits.shape)}")
     check("Logits finite", torch.isfinite(logits).all().item(), "")

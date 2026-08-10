@@ -266,6 +266,7 @@ class TextTrainer:
         all_targets = []
         all_pids = []
         all_probs = []
+        all_embeddings = []
 
         # ---------------------------------------------------------
         # Main batch loop
@@ -274,208 +275,79 @@ class TextTrainer:
         with torch.set_grad_enabled(is_train):
 
             for batch_idx, batch in enumerate(dataloader):
-
-                # -------------------------------------------------
-                # Batch format
-                # -------------------------------------------------
-
                 if len(batch) == 4:
-
                     token_ids, attention_mask, targets, pids = batch
-
                 elif len(batch) == 3:
-
                     token_ids, attention_mask, targets = batch
                     pids = None
-
                 else:
-
                     raise ValueError(
-                        f"Unexpected batch size {len(batch)}. "
-                        f"Expected 3 or 4 elements."
+                        f"Unexpected batch size {len(batch)}. Expected 3 or 4 elements."
                     )
 
-                # -------------------------------------------------
-                # Device transfer
-                # -------------------------------------------------
-
                 token_ids = token_ids.to(self.device)
-
-                attention_mask = attention_mask.to(
-                    self.device
-                )
-
-                targets = targets.to(
-                    self.device
-                )
-
-                # -------------------------------------------------
-                # Training gradient reset
-                # -------------------------------------------------
+                attention_mask = attention_mask.to(self.device)
+                targets = targets.to(self.device)
 
                 if is_train:
                     self.optimizer.zero_grad()
 
-                # -------------------------------------------------
-                # Forward
-                # -------------------------------------------------
-
-                logits = self.model(
-                    token_ids,
-                    attention_mask
-                )
-
-                # -------------------------------------------------
-                # Loss
-                # -------------------------------------------------
-
-                loss = self.criterion(
-                    logits,
-                    targets
-                )
-
-                # -------------------------------------------------
-                # Backward
-                # -------------------------------------------------
+                logits = self.model(token_ids, attention_mask)
+                loss = self.criterion(logits, targets)
 
                 if is_train:
-
                     loss.backward()
-
-                    torch.nn.utils.clip_grad_norm_(
-                        self.model.parameters(),
-                        max_norm=1.0
-                    )
-
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
                     self.optimizer.step()
-
                     self.global_step += 1
 
-                # -------------------------------------------------
-                # Loss accumulation
-                # -------------------------------------------------
-
                 batch_size = token_ids.size(0)
+                total_loss += loss.item() * batch_size
 
-                total_loss += (
-                    loss.item() * batch_size
-                )
+                preds = torch.argmax(logits, dim=1)
+                probs = torch.softmax(logits, dim=1).detach().cpu().numpy()
 
-                # -------------------------------------------------
-                # Predictions
-                # -------------------------------------------------
+                all_preds.extend(preds.cpu().numpy().tolist())
+                all_targets.extend(targets.cpu().numpy().tolist())
+                all_probs.extend(probs.tolist())
 
-                preds = torch.argmax(
-                    logits,
-                    dim=1
-                )
-
-                # -------------------------------------------------
-                # Probabilities
-                # -------------------------------------------------
-
-                probs = torch.softmax(
-                    logits,
-                    dim=1
-                ).detach().cpu().numpy()
-
-                # -------------------------------------------------
-                # Epoch-level accumulation
-                # -------------------------------------------------
-
-                all_preds.extend(
-                    preds.cpu().numpy().tolist()
-                )
-
-                all_targets.extend(
-                    targets.cpu().numpy().tolist()
-                )
-
-                all_probs.extend(
-                    probs.tolist()
-                )
-
-                # -------------------------------------------------
-                # Participant IDs
-                # -------------------------------------------------
+                if return_debug:
+                    # Extract 256-D pooled embeddings for multimodal fusion
+                    with torch.no_grad():
+                        emb = self.model.get_embedding(token_ids, attention_mask).cpu().numpy()
+                        all_embeddings.extend(emb.tolist())
 
                 if pids is not None:
-
-                    if isinstance(
-                        pids,
-                        torch.Tensor
-                    ):
-
-                        all_pids.extend(
-                            pids.cpu()
-                            .numpy()
-                            .tolist()
-                        )
-
+                    if isinstance(pids, torch.Tensor):
+                        all_pids.extend(pids.cpu().numpy().tolist())
                     else:
-
-                        all_pids.extend(
-                            [int(p) for p in pids]
-                        )
-
-                # -------------------------------------------------
-                # Defensive target/prediction check
-                # -------------------------------------------------
+                        all_pids.extend([int(p) for p in pids])
 
                 assert len(all_targets) == len(all_preds), (
-                    f"Target/prediction count mismatch after "
-                    f"batch {batch_idx}: "
-                    f"{len(all_targets)} targets vs "
-                    f"{len(all_preds)} preds"
+                    f"Target/prediction count mismatch after batch {batch_idx}: "
+                    f"{len(all_targets)} targets vs {len(all_preds)} preds"
                 )
 
         # =========================================================
         # Epoch metrics
         # =========================================================
 
-        dataset_size = max(
-            len(dataloader.dataset),
-            1
-        )
+        dataset_size = max(len(dataloader.dataset), 1)
+        avg_loss = total_loss / dataset_size
 
-        avg_loss = (
-            total_loss / dataset_size
-        )
-
-        metrics = compute_text_metrics(
-            all_targets,
-            all_preds,
-            avg_loss
-        )
+        metrics = compute_text_metrics(all_targets, all_preds, avg_loss)
 
         # =========================================================
         # Debug / fusion information
         # =========================================================
 
         if return_debug and all_pids:
-
-            metrics["pid_list"] = [
-                int(p)
-                for p in all_pids
-            ]
-
-            metrics["part_targets"] = (
-                all_targets
-            )
-
-            metrics["part_preds"] = (
-                all_preds
-            )
-
-            metrics["part_probs_c0"] = [
-                float(p[0])
-                for p in all_probs
-            ]
-
-            metrics["part_probs_c1"] = [
-                float(p[1])
-                for p in all_probs
-            ]
+            metrics["pid_list"] = [int(p) for p in all_pids]
+            metrics["part_targets"] = all_targets
+            metrics["part_preds"] = all_preds
+            metrics["part_probs_c0"] = [float(p[0]) for p in all_probs]
+            metrics["part_probs_c1"] = [float(p[1]) for p in all_probs]
+            metrics["embeddings"] = all_embeddings
 
         return metrics
 

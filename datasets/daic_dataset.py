@@ -129,8 +129,11 @@ class DAICDataset(Dataset):
 
     def _load_labels(self, row: pd.Series) -> Dict[str, int]:
         """Load target labels."""
-        phq8_score = int(row["phq8_score"])
-        phq8_binary = 1 if phq8_score >= 10 else 0
+        phq8_score = int(row["phq8_score"]) if ("phq8_score" in row and not pd.isna(row["phq8_score"])) else -1
+        if "phq8_binary" in row and not pd.isna(row["phq8_binary"]):
+            phq8_binary = int(row["phq8_binary"])
+        else:
+            phq8_binary = 1 if phq8_score >= 10 else 0
         return {
             "phq8_score": phq8_score,
             "phq8_binary": phq8_binary
