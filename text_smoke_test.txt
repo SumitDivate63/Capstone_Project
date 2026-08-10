@@ -1,0 +1,135 @@
+=================================================================
+TEXT PIPELINE SMOKE TEST
+=================================================================
+
+[1] Dataset Loading
+2026-08-09 17:23:08,174 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-09 17:23:08,174 - datasets.daic_dataset - INFO - Number of participants: 101
+2026-08-09 17:23:08,174 - datasets.daic_dataset - INFO - Selected split: train
+2026-08-09 17:23:08,174 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: False, Text: True
+2026-08-09 17:23:08,177 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-09 17:23:08,177 - datasets.daic_dataset - INFO - Number of participants: 33
+2026-08-09 17:23:08,177 - datasets.daic_dataset - INFO - Selected split: dev
+2026-08-09 17:23:08,177 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: False, Text: True
+  [PASS] Train dataset loaded [101 participants]
+  [PASS] Dev dataset loaded [33 participants]
+
+[2] Labels & Participant IDs
+  [PASS]   Participant 315 label valid [label=0]
+  [PASS]   Participant 316 label valid [label=0]
+  [PASS]   Participant 317 label valid [label=0]
+
+[3] Therapist Speech Filtering (Ellie excluded)
+  Original speakers in transcript: ['Ellie', 'Participant']
+  [PASS] Ellie rows excluded (keep_ellie=False) [ellie_rows=0]
+  [PASS] Participant rows retained [135 rows remain]
+
+[4–5] Subset Loading & Text Pipeline
+  [PASS] Subset loaded [10 participants]
+  [PASS] Fold train participants exist [5]
+  [PASS] Fold val participants exist [5]
+  [PASS] No participant leakage [overlap=set()]
+  Train PIDs: [317, 320, 321, 322, 324]
+  Val   PIDs: [315, 316, 318, 319, 325]
+
+[6] Vocabulary Fitting (training participants only)
+2026-08-09 17:23:08,261 - preprocessing.text.pipeline - INFO - Initializing Text Pipeline Native Fit sequence...
+2026-08-09 17:23:08,263 - preprocessing.text.preprocessor - INFO - Participant 0 | Text cleansing sequence complete. Final Raw Extracted char length: 3237
+2026-08-09 17:23:08,265 - preprocessing.text.preprocessor - INFO - Participant 1 | Text cleansing sequence complete. Final Raw Extracted char length: 3719
+2026-08-09 17:23:08,267 - preprocessing.text.preprocessor - INFO - Participant 2 | Text cleansing sequence complete. Final Raw Extracted char length: 4450
+2026-08-09 17:23:08,269 - preprocessing.text.preprocessor - INFO - Participant 3 | Text cleansing sequence complete. Final Raw Extracted char length: 7469
+2026-08-09 17:23:08,271 - preprocessing.text.preprocessor - INFO - Participant 4 | Text cleansing sequence complete. Final Raw Extracted char length: 4319
+2026-08-09 17:23:08,272 - preprocessing.text.vocabulary - INFO - Built native vocabulary. Size: 890
+2026-08-09 17:23:08,272 - preprocessing.text.pipeline - INFO - Pipeline Text Extraction successful. Vocabulary built.
+  [PASS] Vocabulary built [vocab_size=890]
+  [PASS] Vocabulary not fitted on val data [vocabulary fitted on training participants only]
+2026-08-09 17:23:08,273 - preprocessing.text.preprocessor - INFO - Participant 317 | Text cleansing sequence complete. Final Raw Extracted char length: 3237
+2026-08-09 17:23:08,273 - preprocessing.text.pipeline - INFO - Participant 317 | Original Tokens extracted: 642
+2026-08-09 17:23:08,274 - preprocessing.text.pipeline - INFO - Participant 317 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,275 - preprocessing.text.preprocessor - INFO - Participant 320 | Text cleansing sequence complete. Final Raw Extracted char length: 3719
+2026-08-09 17:23:08,276 - preprocessing.text.pipeline - INFO - Participant 320 | Original Tokens extracted: 756
+2026-08-09 17:23:08,276 - preprocessing.text.pipeline - INFO - Participant 320 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,277 - preprocessing.text.preprocessor - INFO - Participant 321 | Text cleansing sequence complete. Final Raw Extracted char length: 4450
+2026-08-09 17:23:08,278 - preprocessing.text.pipeline - INFO - Participant 321 | Original Tokens extracted: 917
+2026-08-09 17:23:08,278 - preprocessing.text.pipeline - INFO - Participant 321 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,280 - preprocessing.text.preprocessor - INFO - Participant 322 | Text cleansing sequence complete. Final Raw Extracted char length: 7469
+2026-08-09 17:23:08,280 - preprocessing.text.pipeline - INFO - Participant 322 | Original Tokens extracted: 1567
+2026-08-09 17:23:08,280 - preprocessing.text.pipeline - INFO - Participant 322 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,282 - preprocessing.text.preprocessor - INFO - Participant 324 | Text cleansing sequence complete. Final Raw Extracted char length: 4319
+2026-08-09 17:23:08,282 - preprocessing.text.pipeline - INFO - Participant 324 | Original Tokens extracted: 871
+2026-08-09 17:23:08,282 - preprocessing.text.pipeline - INFO - Participant 324 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,284 - preprocessing.text.preprocessor - INFO - Participant 315 | Text cleansing sequence complete. Final Raw Extracted char length: 6597
+2026-08-09 17:23:08,284 - preprocessing.text.pipeline - INFO - Participant 315 | Original Tokens extracted: 1369
+2026-08-09 17:23:08,284 - preprocessing.text.pipeline - INFO - Participant 315 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,285 - preprocessing.text.preprocessor - INFO - Participant 316 | Text cleansing sequence complete. Final Raw Extracted char length: 3181
+2026-08-09 17:23:08,285 - preprocessing.text.pipeline - INFO - Participant 316 | Original Tokens extracted: 632
+2026-08-09 17:23:08,286 - preprocessing.text.pipeline - INFO - Participant 316 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,287 - preprocessing.text.preprocessor - INFO - Participant 318 | Text cleansing sequence complete. Final Raw Extracted char length: 3495
+2026-08-09 17:23:08,287 - preprocessing.text.pipeline - INFO - Participant 318 | Original Tokens extracted: 698
+2026-08-09 17:23:08,288 - preprocessing.text.pipeline - INFO - Participant 318 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,289 - preprocessing.text.preprocessor - INFO - Participant 319 | Text cleansing sequence complete. Final Raw Extracted char length: 3382
+2026-08-09 17:23:08,289 - preprocessing.text.pipeline - INFO - Participant 319 | Original Tokens extracted: 681
+2026-08-09 17:23:08,289 - preprocessing.text.pipeline - INFO - Participant 319 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+2026-08-09 17:23:08,291 - preprocessing.text.preprocessor - INFO - Participant 325 | Text cleansing sequence complete. Final Raw Extracted char length: 9031
+2026-08-09 17:23:08,291 - preprocessing.text.pipeline - INFO - Participant 325 | Original Tokens extracted: 1799
+2026-08-09 17:23:08,292 - preprocessing.text.pipeline - INFO - Participant 325 | Text Arrays Formatted -> IDs: [512], MSK: [512], LEN: 512
+  [PASS] Train sequences valid [5 participants]
+  [PASS] Val sequences valid [5 participants]
+  [PASS] token_ids shape (512,) [[512]]
+  [PASS] attention_mask shape (512,) [[512]]
+  [PASS] token_ids dtype long [torch.int64]
+
+[7] DataLoader Batch
+  [PASS] Batch has 4 elements [len=4]
+  [PASS] token_ids shape (B, 512) [[4, 512]]
+  [PASS] attention_mask shape (B, 512) [[4, 512]]
+  [PASS] targets shape (B,) [[4]]
+  [PASS] Targets in {0,1}
+
+[8–11] Model Forward / Loss / Backward / Gradients
+2026-08-09 17:23:08,324 - models.text_agent.text_model - INFO - TextTransformerEncoder: vocab=890, d=128, maxlen=512, layers=2, heads=4
+2026-08-09 17:23:08,325 - models.text_agent.text_model - INFO - MaskedAttentionPooling: d_model=128
+2026-08-09 17:23:08,325 - models.text_agent.text_model - INFO - TextClassifier: 128→64→2
+2026-08-09 17:23:08,325 - models.text_agent.text_model - INFO - TextModel assembled. Total parameters: 518,978
+/home/rit/anaconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py:515: UserWarning: The PyTorch API of nested tensors is in prototype stage and will change in the near future. We recommend specifying layout=torch.jagged when constructing a nested tensor, as this layout receives active development, has better operator coverage, and works with torch.compile. (Triggered internally at /pytorch/aten/src/ATen/NestedTensorImpl.cpp:178.)
+  output = torch._nested_tensor_from_mask(
+  [PASS] Forward pass shape (B, 2) [[4, 2]]
+  [PASS] Logits finite
+  [PASS] Loss computed [loss=0.6810]
+  [PASS] Loss finite
+  [PASS] Backward pass
+  [PASS] All gradients finite
+
+[12–14] Validation / Participant Count / Metrics
+  [PASS] Participant predictions == val participants [5 == 5]
+  [PASS] Macro F1 computable [MacroF1=0.3750]
+  [PASS] Confusion matrix shape (2,2) [[[3, 0], [2, 0]]]
+  Participant targets : [0, 0, 0, 1, 1]
+  Participant preds   : [0, 0, 0, 0, 0]
+  Confusion matrix    :
+[[3 0]
+ [2 0]]
+
+[15] Checkpoint Save / Load
+  [PASS] Checkpoint save successful
+  [PASS] last_model.pt saved
+2026-08-09 17:23:09,419 - training.checkpoint - INFO - Weight matrices bound matching Epoch 1, Memory State Restored.
+  [PASS] Checkpoint load successful [epoch=1, best_f1=0.5]
+  [PASS] Fold info in checkpoint [fold=1]
+  [PASS] Seed info in checkpoint [seed=42]
+
+[16] Output Directory Isolation
+  [PASS] Text checkpoint dir is isolated [outputs/checkpoints/text]
+  [PASS] Visual checkpoint dir NOT written to [visual dir clean]
+  [PASS] Text log dir is separate [outputs/logs/text]
+
+[17] Fusion Prediction Export
+  [PASS] Fusion predictions exported [outputs/predictions/text/smoke_test_predictions.json]
+  [PASS] All required fields present
+
+=================================================================
+TEXT SMOKE TEST COMPLETE
+  PASS: 42
+  FAIL: 0
+  OVERALL: PASS
+=================================================================

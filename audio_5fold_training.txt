@@ -1,0 +1,124 @@
+2026-08-10 12:57:20,429 - INFO - ============================================================
+2026-08-10 12:57:20,444 - INFO - AUDIO AGENT — 5-FOLD CROSS-VALIDATION TRAINING
+2026-08-10 12:57:20,444 - INFO - ============================================================
+2026-08-10 12:57:20,444 - INFO - Batch size   : 16
+2026-08-10 12:57:20,444 - INFO - Max epochs   : 30
+2026-08-10 12:57:20,444 - INFO - Early stop   : 5
+2026-08-10 12:57:20,444 - INFO - LR           : 0.0001
+2026-08-10 12:57:20,444 - INFO - Window size  : 150, stride: 30
+2026-08-10 12:57:20,444 - INFO - D_model      : 128
+2026-08-10 12:57:20,444 - INFO - Num workers  : 0
+2026-08-10 12:57:20,445 - INFO - Log file     : outputs/logs/audio/audio_5fold_training.txt
+2026-08-10 12:57:20,445 - INFO - Loading DAIC-WOZ datasets (audio only)...
+2026-08-10 12:57:20,450 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-10 12:57:20,451 - datasets.daic_dataset - INFO - Number of participants: 101
+2026-08-10 12:57:20,451 - datasets.daic_dataset - INFO - Selected split: train
+2026-08-10 12:57:20,451 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: True, Text: False
+2026-08-10 12:57:20,453 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-10 12:57:20,453 - datasets.daic_dataset - INFO - Number of participants: 33
+2026-08-10 12:57:20,453 - datasets.daic_dataset - INFO - Selected split: dev
+2026-08-10 12:57:20,453 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: True, Text: False
+2026-08-10 12:57:20,454 - INFO - Extracting and preprocessing audio participants (train split)...
+2026-08-10 12:57:20,454 - INFO - Fitting audio normalizer on training participants...
+2026-08-10 12:59:38,071 - preprocessing.audio.pipeline - INFO - Initializing Audio Pipeline Fit cycle...
+2026-08-10 12:59:38,652 - preprocessing.audio.preprocessor - INFO - Participant 0 Summary | Original Rows: 97539 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:38,931 - preprocessing.audio.preprocessor - INFO - Participant 1 Summary | Original Rows: 86900 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:39,142 - preprocessing.audio.preprocessor - INFO - Participant 2 Summary | Original Rows: 80490 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:39,278 - preprocessing.audio.preprocessor - INFO - Participant 3 Summary | Original Rows: 58839 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:39,432 - preprocessing.audio.preprocessor - INFO - Participant 4 Summary | Original Rows: 67970 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:39,611 - preprocessing.audio.preprocessor - INFO - Participant 5 Summary | Original Rows: 84069 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:39,878 - preprocessing.audio.preprocessor - INFO - Participant 6 Summary | Original Rows: 82190 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:40,223 - preprocessing.audio.preprocessor - INFO - Participant 7 Summary | Original Rows: 104709 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:40,400 - preprocessing.audio.preprocessor - INFO - Participant 8 Summary | Original Rows: 72129 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:40,648 - preprocessing.audio.preprocessor - INFO - Participant 9 Summary | Original Rows: 87500 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:40,820 - preprocessing.audio.preprocessor - INFO - Participant 10 Summary | Original Rows: 69920 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:41,018 - preprocessing.audio.preprocessor - INFO - Participant 11 Summary | Original Rows: 68079 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:41,398 - preprocessing.audio.preprocessor - INFO - Participant 12 Summary | Original Rows: 106520 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:41,575 - preprocessing.audio.preprocessor - INFO - Participant 13 Summary | Original Rows: 77150 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:41,820 - preprocessing.audio.preprocessor - INFO - Participant 14 Summary | Original Rows: 96930 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:42,106 - preprocessing.audio.preprocessor - INFO - Participant 15 Summary | Original Rows: 94449 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:42,292 - preprocessing.audio.preprocessor - INFO - Participant 16 Summary | Original Rows: 59679 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:42,510 - preprocessing.audio.preprocessor - INFO - Participant 17 Summary | Original Rows: 86289 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:42,649 - preprocessing.audio.preprocessor - INFO - Participant 18 Summary | Original Rows: 59930 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:42,856 - preprocessing.audio.preprocessor - INFO - Participant 19 Summary | Original Rows: 86750 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:43,393 - preprocessing.audio.preprocessor - INFO - Participant 20 Summary | Original Rows: 92730 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:43,716 - preprocessing.audio.preprocessor - INFO - Participant 21 Summary | Original Rows: 109050 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:43,897 - preprocessing.audio.preprocessor - INFO - Participant 22 Summary | Original Rows: 79389 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,039 - preprocessing.audio.preprocessor - INFO - Participant 23 Summary | Original Rows: 61160 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,185 - preprocessing.audio.preprocessor - INFO - Participant 24 Summary | Original Rows: 71940 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,364 - preprocessing.audio.preprocessor - INFO - Participant 25 Summary | Original Rows: 88179 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,519 - preprocessing.audio.preprocessor - INFO - Participant 26 Summary | Original Rows: 76959 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,675 - preprocessing.audio.preprocessor - INFO - Participant 27 Summary | Original Rows: 76010 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,834 - preprocessing.audio.preprocessor - INFO - Participant 28 Summary | Original Rows: 78600 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:44,975 - preprocessing.audio.preprocessor - INFO - Participant 29 Summary | Original Rows: 67470 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,189 - preprocessing.audio.preprocessor - INFO - Participant 30 Summary | Original Rows: 95400 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,281 - preprocessing.audio.preprocessor - INFO - Participant 31 Summary | Original Rows: 41480 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,412 - preprocessing.audio.preprocessor - INFO - Participant 32 Summary | Original Rows: 64790 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,502 - preprocessing.audio.preprocessor - INFO - Participant 33 Summary | Original Rows: 44040 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,626 - preprocessing.audio.preprocessor - INFO - Participant 34 Summary | Original Rows: 59019 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:45,900 - preprocessing.audio.preprocessor - INFO - Participant 35 Summary | Original Rows: 122709 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:46,462 - preprocessing.audio.preprocessor - INFO - Participant 36 Summary | Original Rows: 178149 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:46,855 - preprocessing.audio.preprocessor - INFO - Participant 37 Summary | Original Rows: 131270 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:47,269 - preprocessing.audio.preprocessor - INFO - Participant 38 Summary | Original Rows: 135480 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:47,555 - preprocessing.audio.preprocessor - INFO - Participant 39 Summary | Original Rows: 104109 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:48,174 - preprocessing.audio.preprocessor - INFO - Participant 40 Summary | Original Rows: 120860 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:48,585 - preprocessing.audio.preprocessor - INFO - Participant 41 Summary | Original Rows: 91170 | Sync Drops: 0 | Infs Reset: 3 | Nulls Rebuilt: 3
+2026-08-10 12:59:49,473 - preprocessing.audio.preprocessor - INFO - Participant 42 Summary | Original Rows: 151370 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:50,234 - preprocessing.audio.preprocessor - INFO - Participant 43 Summary | Original Rows: 128769 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:50,375 - preprocessing.audio.preprocessor - INFO - Participant 44 Summary | Original Rows: 62120 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:50,906 - preprocessing.audio.preprocessor - INFO - Participant 45 Summary | Original Rows: 102570 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:51,425 - preprocessing.audio.preprocessor - INFO - Participant 46 Summary | Original Rows: 100209 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:52,480 - preprocessing.audio.preprocessor - INFO - Participant 47 Summary | Original Rows: 196620 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:53,298 - preprocessing.audio.preprocessor - INFO - Participant 48 Summary | Original Rows: 136910 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:53,394 - preprocessing.audio.preprocessor - INFO - Participant 49 Summary | Original Rows: 53630 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:53,920 - preprocessing.audio.preprocessor - INFO - Participant 50 Summary | Original Rows: 103940 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:54,218 - preprocessing.audio.preprocessor - INFO - Participant 51 Summary | Original Rows: 68010 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:54,520 - preprocessing.audio.preprocessor - INFO - Participant 52 Summary | Original Rows: 65570 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:54,807 - preprocessing.audio.preprocessor - INFO - Participant 53 Summary | Original Rows: 63000 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:55,218 - preprocessing.audio.preprocessor - INFO - Participant 54 Summary | Original Rows: 95330 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:55,570 - preprocessing.audio.preprocessor - INFO - Participant 55 Summary | Original Rows: 93669 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:55,809 - preprocessing.audio.preprocessor - INFO - Participant 56 Summary | Original Rows: 93420 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:56,104 - preprocessing.audio.preprocessor - INFO - Participant 57 Summary | Original Rows: 95550 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:56,419 - preprocessing.audio.preprocessor - INFO - Participant 58 Summary | Original Rows: 103239 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:56,657 - preprocessing.audio.preprocessor - INFO - Participant 59 Summary | Original Rows: 85689 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:57,013 - preprocessing.audio.preprocessor - INFO - Participant 60 Summary | Original Rows: 98430 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:57,273 - preprocessing.audio.preprocessor - INFO - Participant 61 Summary | Original Rows: 78069 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:57,637 - preprocessing.audio.preprocessor - INFO - Participant 62 Summary | Original Rows: 86580 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:58,033 - preprocessing.audio.preprocessor - INFO - Participant 63 Summary | Original Rows: 90630 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:58,783 - preprocessing.audio.preprocessor - INFO - Participant 64 Summary | Original Rows: 99590 | Sync Drops: 0 | Infs Reset: 1 | Nulls Rebuilt: 1
+2026-08-10 12:59:59,304 - preprocessing.audio.preprocessor - INFO - Participant 65 Summary | Original Rows: 115479 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 12:59:59,834 - preprocessing.audio.preprocessor - INFO - Participant 66 Summary | Original Rows: 85680 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:00,241 - preprocessing.audio.preprocessor - INFO - Participant 67 Summary | Original Rows: 87180 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:00,388 - preprocessing.audio.preprocessor - INFO - Participant 68 Summary | Original Rows: 70410 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:00,672 - preprocessing.audio.preprocessor - INFO - Participant 69 Summary | Original Rows: 95750 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:00,908 - preprocessing.audio.preprocessor - INFO - Participant 70 Summary | Original Rows: 90879 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:01,102 - preprocessing.audio.preprocessor - INFO - Participant 71 Summary | Original Rows: 80190 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:01,442 - preprocessing.audio.preprocessor - INFO - Participant 72 Summary | Original Rows: 131990 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:01,624 - preprocessing.audio.preprocessor - INFO - Participant 73 Summary | Original Rows: 84960 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:01,834 - preprocessing.audio.preprocessor - INFO - Participant 74 Summary | Original Rows: 97130 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:01,976 - preprocessing.audio.preprocessor - INFO - Participant 75 Summary | Original Rows: 70130 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:02,293 - preprocessing.audio.preprocessor - INFO - Participant 76 Summary | Original Rows: 131049 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:02,435 - preprocessing.audio.preprocessor - INFO - Participant 77 Summary | Original Rows: 70959 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:02,666 - preprocessing.audio.preprocessor - INFO - Participant 78 Summary | Original Rows: 99840 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:02,854 - preprocessing.audio.preprocessor - INFO - Participant 79 Summary | Original Rows: 82029 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:03,148 - preprocessing.audio.preprocessor - INFO - Participant 80 Summary | Original Rows: 121299 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:03,382 - preprocessing.audio.preprocessor - INFO - Participant 81 Summary | Original Rows: 102969 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:03,566 - preprocessing.audio.preprocessor - INFO - Participant 82 Summary | Original Rows: 80409 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:03,744 - preprocessing.audio.preprocessor - INFO - Participant 83 Summary | Original Rows: 75039 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:04,344 - preprocessing.audio.preprocessor - INFO - Participant 84 Summary | Original Rows: 88269 | Sync Drops: 0 | Infs Reset: 2 | Nulls Rebuilt: 2
+2026-08-10 13:00:05,050 - preprocessing.audio.preprocessor - INFO - Participant 85 Summary | Original Rows: 96230 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:06,481 - preprocessing.audio.preprocessor - INFO - Participant 86 Summary | Original Rows: 97509 | Sync Drops: 0 | Infs Reset: 3 | Nulls Rebuilt: 3
+2026-08-10 13:00:06,671 - preprocessing.audio.preprocessor - INFO - Participant 87 Summary | Original Rows: 83469 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:07,029 - preprocessing.audio.preprocessor - INFO - Participant 88 Summary | Original Rows: 98030 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:07,484 - preprocessing.audio.preprocessor - INFO - Participant 89 Summary | Original Rows: 93980 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:08,442 - preprocessing.audio.preprocessor - INFO - Participant 90 Summary | Original Rows: 99530 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:08,578 - preprocessing.audio.preprocessor - INFO - Participant 91 Summary | Original Rows: 53330 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:09,340 - preprocessing.audio.preprocessor - INFO - Participant 92 Summary | Original Rows: 92739 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:09,496 - preprocessing.audio.preprocessor - INFO - Participant 93 Summary | Original Rows: 58719 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:10,369 - preprocessing.audio.preprocessor - INFO - Participant 94 Summary | Original Rows: 93620 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:10,762 - preprocessing.audio.preprocessor - INFO - Participant 95 Summary | Original Rows: 91040 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:10,914 - preprocessing.audio.preprocessor - INFO - Participant 96 Summary | Original Rows: 60270 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
+2026-08-10 13:00:11,341 - preprocessing.audio.preprocessor - INFO - Participant 97 Summary | Original Rows: 68229 | Sync Drops: 0 | Infs Reset: 1 | Nulls Rebuilt: 1
+2026-08-10 13:00:12,182 - preprocessing.audio.preprocessor - INFO - Participant 98 Summary | Original Rows: 102350 | Sync Drops: 0 | Infs Reset: 2 | Nulls Rebuilt: 2
+2026-08-10 13:00:12,693 - preprocessing.audio.preprocessor - INFO - Participant 99 Summary | Original Rows: 88490 | Sync Drops: 0 | Infs Reset: 1 | Nulls Rebuilt: 1
+2026-08-10 13:00:12,892 - preprocessing.audio.preprocessor - INFO - Participant 100 Summary | Original Rows: 88170 | Sync Drops: 0 | Infs Reset: 0 | Nulls Rebuilt: 0
