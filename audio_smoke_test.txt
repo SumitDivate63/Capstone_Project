@@ -1,0 +1,57 @@
+=================================================================
+AUDIO PIPELINE SMOKE TEST
+=================================================================
+
+[1] Dataset Loading
+2026-08-10 14:50:13,104 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-10 14:50:13,104 - datasets.daic_dataset - INFO - Number of participants: 101
+2026-08-10 14:50:13,105 - datasets.daic_dataset - INFO - Selected split: train
+2026-08-10 14:50:13,105 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: True, Text: False
+2026-08-10 14:50:13,108 - datasets.daic_dataset - INFO - DAICDataset initialized.
+2026-08-10 14:50:13,108 - datasets.daic_dataset - INFO - Number of participants: 33
+2026-08-10 14:50:13,108 - datasets.daic_dataset - INFO - Selected split: dev
+2026-08-10 14:50:13,108 - datasets.daic_dataset - INFO - Selected modalities - Visual: False, Audio: True, Text: False
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/rit/Desktop/Capstone_Project/scripts/test_audio_pipeline.py", line 96, in <module>
+    pt     = train_ds[i]
+             ~~~~~~~~^^^
+  File "/home/rit/Desktop/Capstone_Project/datasets/daic_dataset.py", line 178, in __getitem__
+    item["audio"] = self._load_audio(row, participant_id)
+                    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rit/Desktop/Capstone_Project/datasets/daic_dataset.py", line 119, in _load_audio
+    "covarep": self._load_csv(row.get("covarep_path"), participant_id, "COVAREP", header=None),
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/rit/Desktop/Capstone_Project/datasets/daic_dataset.py", line 97, in _load_csv
+    df = pd.read_csv(path, **read_kwargs)
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py", line 626, in _read
+    return parser.read(nrows)
+           ~~~~~~~~~~~^^^^^^^
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/pandas/io/parsers/readers.py", line 1923, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        nrows
+        ^^^^^
+    )
+    ^
+  File "/home/rit/anaconda3/lib/python3.13/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 239, in read
+    data = self._reader.read(nrows)
+  File "parsers.pyx", line 820, in pandas._libs.parsers.TextReader.read
+  File "parsers.pyx", line 914, in pandas._libs.parsers.TextReader._read_rows
+  File "parsers.pyx", line 891, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "parsers.pyx", line 2053, in pandas._libs.parsers.raise_parser_error
+  File "<frozen codecs>", line 322, in decode
+KeyboardInterrupt
+  [PASS] Train dataset loaded [101 participants]
+  [PASS] Dev dataset loaded [33 participants]
+
+[2] Labels & Participant IDs
+  [PASS]   Participant 315 label valid [label=0]
+  [PASS]   Participant 316 label valid [label=0]
+  [PASS]   Participant 317 label valid [label=0]
+
+[3] Audio Preprocessing
+  Using 8 participants from train split...
